@@ -1,12 +1,13 @@
 <template>
+<div id="demo">
+    <h2>政策与资讯</h2>
     <div id="currentNews">
-        <h2>政策与资讯</h2>
         <newsList></newsList>
         <newsList></newsList>
         <newsList></newsList>
     </div>
     
-  
+</div>
 </template>
 
 <script>
@@ -18,9 +19,13 @@ export default {
 </script>
 
 <style>
-#currentNews{
+#demo{
     margin: 15px;
 }
+#currentNews{
+    display: flex;
+}
+
 
 
 </style>

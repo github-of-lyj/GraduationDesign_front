@@ -4,11 +4,11 @@
       <img id="logo" src="../../assets/logo.jpg" />
       <span id="websiteTitle">研墨</span>
     </div>
-    <el-breadcrumb separator="">
-      <el-breadcrumb-item>首页</el-breadcrumb-item>
-      <el-breadcrumb-item>论坛</el-breadcrumb-item>
-      <el-breadcrumb-item>资料</el-breadcrumb-item>
-    </el-breadcrumb>
+<el-menu class="el-menu-demo" :router="true">
+  <el-menu-item index="1">首页</el-menu-item>
+  <el-menu-item index="2">论坛</el-menu-item>
+  <el-menu-item index="3">资料</el-menu-item>
+</el-menu>
     <div id="user">
       <div id="sign">
         <el-dropdown>
@@ -68,14 +68,23 @@ export default {
 #sign{
     margin-left: 70px;
 }
-.el-breadcrumb {
+.el-menu {
   width: 80%;
   height: 80px;
   margin-left: 40px;
   display: flex;
   align-items: center;
+  border-right: 0;
 }
-.el-breadcrumb__item {
+.el-menu.el-menu--horizontal{
+  border-bottom: 0;
+  
+}
+.el-menu--horizontal>.el-menu-item.is-active{
+  border: 2px solid #409EFF;
+  border-radius: 10px;
+}
+.el-menu-item {
   display: flex;
   justify-content: center;
   width: 100px;

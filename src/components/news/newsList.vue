@@ -1,9 +1,10 @@
 <template>
   <div id="newsList">
     <el-tabs>
-      <el-tab-pane :label="title">
+      <el-tab-pane>
+        <span slot="label" class="fontClass">{{title}}</span>
         <div>
-            {{title}}
+          <itemDetail></itemDetail>  
         </div>
       </el-tab-pane>
       <a href=""><i class="el-icon-more"></i></a>
@@ -12,21 +13,25 @@
 </template>
 
 <script>
+import itemDetail from '../itemDetail.vue'
 export default {
   data() {
     return {
       title: "xxx",
     };
   },
+  components:{itemDetail}
 };
 </script>
 
-<style>
-#tab-0{
-    font-size: 50px;
+<style scoped>
+#newsList{
+  height: 200px;
+  width: 33%;
 }
 .el-tabs{
-    width: 30%;
+    width: 90%;
+    height: 100%;
     float: left;
     margin-left: 10px;
     margin-right: 10px;
@@ -35,5 +40,7 @@ export default {
     margin-left: 45%;
     font-size: 30px;
 }
-
+.fontClass{
+  font-size: 50px;
+}
 </style>
