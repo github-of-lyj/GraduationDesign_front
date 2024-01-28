@@ -1,19 +1,19 @@
 <template>
 <div id="demo">
-    <h2>政策与资讯</h2>
+    <h3>政策与资讯</h3>
     <div id="currentNews">
-        <newsList></newsList>
-        <newsList></newsList>
-        <newsList></newsList>
+        <currentNewsList type="国家政策"></currentNewsList>
+        <currentNewsList type="考研资讯"></currentNewsList>
+        <currentNewsList type="专硕巡展"></currentNewsList>
     </div>
     
 </div>
 </template>
 
 <script>
-import newsList from './newsList.vue'
+import currentNewsList from './currentNewsList.vue'
 export default {
-    components:{newsList}
+    components:{currentNewsList}
 
 }
 </script>

@@ -38,8 +38,9 @@ export default {
 #pageHeader {
   height: 80px;
   display: flex;
-  margin: 15px;
-  border: 1px solid black;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  border: 2px solid black;
   border-radius: 10px;
 }
 #logoAndtitle {

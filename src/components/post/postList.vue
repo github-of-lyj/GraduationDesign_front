@@ -4,16 +4,21 @@
         <h3 class='hotTalk'>xxx</h3>
     </div>
     <div class="content">
-        <itemDetail></itemDetail>
+        <postDetail></postDetail>
         <a href=""><i class="el-icon-more"></i></a>
     </div>
   </div>
 </template>
 
 <script>
-import itemDetail from '../itemDetail.vue'
+import postDetail from '../detail/postDetail.vue'
 export default {
-    components:{itemDetail}
+    data() {
+        return {
+            property: 'value',
+        };
+    },
+    components:{postDetail}
 
 }
 </script>

@@ -5,7 +5,6 @@
       <currentNews></currentNews>
       <el-divider></el-divider>
       <colluagueNews></colluagueNews>
-      
     </div>
     <pageFooter></pageFooter>
   </div>
@@ -14,7 +13,7 @@
 <script>
 import pageHeader from "./components/header/pageHeader.vue";
 import currentNews from "./components/news/currentNews.vue";
-import colluagueNews from "./components/colluague/colluagueNews.vue";
+import colluagueNews from "./components/college/collegeNews.vue";
 import pageFooter from "./components/footer/pageFooter.vue"
 
 export default {
