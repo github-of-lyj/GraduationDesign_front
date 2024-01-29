@@ -4,11 +4,12 @@
       <img id="logo" src="../../assets/logo.jpg" />
       <span id="websiteTitle">研墨</span>
     </div>
-<el-menu class="el-menu-demo" :router="true">
-  <el-menu-item index="1">首页</el-menu-item>
-  <el-menu-item index="2">论坛</el-menu-item>
-  <el-menu-item index="3">资料</el-menu-item>
-</el-menu>
+    <el-menu class="el-menu-demo" :router="true">
+      <el-menu-item index="/">首页</el-menu-item>
+      <el-menu-item index="/message">资讯</el-menu-item>
+      <el-menu-item index="/forum">论坛</el-menu-item>
+      <el-menu-item index="/information">资料</el-menu-item>
+    </el-menu>
     <div id="user">
       <div id="sign">
         <el-dropdown>
@@ -29,8 +30,7 @@
 </template>
 <script>
 export default {
-    name: "pageHeader",
-    
+  name: "pageHeader",
 };
 </script>
 
@@ -66,8 +66,8 @@ export default {
   margin-left: 10px;
   margin-right: 10px;
 }
-#sign{
-    margin-left: 70px;
+#sign {
+  margin-left: 70px;
 }
 .el-menu {
   width: 80%;
@@ -77,12 +77,11 @@ export default {
   align-items: center;
   border-right: 0;
 }
-.el-menu.el-menu--horizontal{
+.el-menu.el-menu--horizontal {
   border-bottom: 0;
-  
 }
-.el-menu--horizontal>.el-menu-item.is-active{
-  border: 2px solid #409EFF;
+.el-menu--horizontal > .el-menu-item.is-active {
+  border: 2px solid #409eff;
   border-radius: 10px;
 }
 .el-menu-item {
