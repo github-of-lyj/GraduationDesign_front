@@ -6,8 +6,9 @@
           <h3>直击院校—当前显示的是:</h3>
           <h3 v-show="!isEdit" style="margin-left: 5px;">{{ collegeName }}</h3>
           <el-input 
+          ref="elInput"
           v-model="inputWords" 
-          @change="finishEdit"
+          @blur="finishEdit(inputWords)"
           placeholder="请输入内容" 
           v-show="isEdit"
           size="medium"
@@ -45,12 +46,13 @@ export default {
   methods:{
     startEdit(){
       this.isEdit = true
+      this.$nextTick(function () {
+        this.$refs.elInput.focus()
+      });
     },
     finishEdit(college){
       this.collegeName = college
       this.isEdit = false
-      this.inputWords = ""
-
     }
   },
   watch: {
@@ -59,7 +61,6 @@ export default {
         .get(`http://localhost:8080/user/university/name/${newValue}/0`)
         .then(
           (response) => {
-            console.log(response.data.length)
             pubsub.publish("universityData", response.data)
             this.errMsg = ""
           },
@@ -73,6 +74,7 @@ export default {
     axios.get("http://localhost:8080/user/college/random").then(
       (response) => {
         this.collegeName = response.data.collegeName;
+        this.inputWords = response.data.collegeName;
         axios
           .get(
             `http://localhost:8080/user/university/${response.data.collegeCode}/5`
