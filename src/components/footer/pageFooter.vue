@@ -1,5 +1,5 @@
 <template>
-    <footer>研墨 by lyj who from sicau</footer>
+    <footer>研墨 created by lyj who from sicau</footer>
   
 </template>
 
