@@ -4,7 +4,7 @@
       <img id="logo" src="../../assets/logo.jpg" />
       <span id="websiteTitle">研墨</span>
     </div>
-    <el-menu class="el-menu-demo" :router="true" default-active="/">
+    <el-menu class="el-menu-demo" :router="true" :default-active="$route.path">
       <el-menu-item index="/">首页</el-menu-item>
       <el-menu-item index="/message">资讯</el-menu-item>
       <el-menu-item index="/forum/index">论坛</el-menu-item>
