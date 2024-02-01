@@ -4,7 +4,7 @@
       <img id="logo" src="../../assets/logo.jpg" />
       <span id="websiteTitle">研墨</span>
     </div>
-    <el-menu class="el-menu-demo" :router="true" :default-active="$route.path">
+    <el-menu class="el-menu-demo" :router="true" :default-active="curPath">
       <el-menu-item index="/">首页</el-menu-item>
       <el-menu-item index="/message">资讯</el-menu-item>
       <el-menu-item index="/forum/index">论坛</el-menu-item>
@@ -30,7 +30,19 @@
 </template>
 <script>
 export default {
-  name: "pageHeader",
+  data() {
+    return {
+      curPath: '',
+    };
+  },
+  mounted(){
+    var pos = this.$route.path.slice(1).indexOf('/') + 1
+    var str = this.$route.path.slice(0,pos)
+    if(str === '/forum')
+      this.curPath = str + '/index'
+    else
+      this.curPath = this.$route.path
+  }
 };
 </script>
 

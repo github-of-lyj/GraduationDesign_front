@@ -3,7 +3,14 @@
     <div>
       <div id="titleName">
         <div id="postName">
-          <router-link to="/forum/index">postName</router-link>
+          <router-link :to="{
+              name: 'ForumBlockPost',
+              params: {
+                postid: 2,
+              },
+            }"
+            >postName</router-link
+          >
         </div>
       </div>
       <div id="postContent">

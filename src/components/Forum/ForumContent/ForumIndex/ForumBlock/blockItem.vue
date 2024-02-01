@@ -1,13 +1,18 @@
 <template>
   <div>
-    <router-link to="/forum/index" id="blockItem">
+    <router-link :to="{
+      name:'ForumBlockPage',
+      params:{
+        blockid: 1
+      }
+    }" id="blockItem">
       <img src="../../../../../assets/orange.jpg" />
       <div id="collegeData">
         <p id="collegeName">blockName</p>
         <p id="postNumber">
-          <i class="el-icon-chat-line-square"></i>帖数:postNumber
+          <i class="el-icon-chat-line-square"></i> postNumber
         </p>
-        <p id="postNumber"><i class="el-icon-time"></i>最后发表:postNumber</p>
+        <p id="postNumber"><i class="el-icon-time"></i> postNumber</p>
       </div>
     </router-link>
   </div>

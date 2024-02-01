@@ -3,6 +3,8 @@ import indexContent from "../components/pages/indexContent"
 import messageContent from "../components/pages/messageContent"
 import forumContent from "../components/pages/forum/forumContent"
 import forumIndex from "../components/pages/forum/forumIndex"
+import forumBlockPage from "../components/pages/forum/forumBlockPage"
+import forumBlockPost from "../components/pages/forum/forumBlockPost"
 export default new VueRouter({
     routes:[
         {
@@ -23,7 +25,18 @@ export default new VueRouter({
                 {
                     name: 'ForumIndex',
                     path: 'index',
-                    component: forumIndex                }
+                    component: forumIndex    
+                },
+                {
+                    name: 'ForumBlockPage',
+                    path: 'block/:blockid',
+                    component: forumBlockPage,
+                },
+                {
+                    name: 'ForumBlockPost',
+                    path: 'post/:postid',
+                    component: forumBlockPost
+                }
             ]
         }
     ]
