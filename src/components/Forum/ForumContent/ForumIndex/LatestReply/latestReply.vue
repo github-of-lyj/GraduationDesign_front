@@ -25,7 +25,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #latestReply {
   margin: 15px;
   border: 1px solid rgba(230, 230, 230, 1);

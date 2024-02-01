@@ -32,4 +32,8 @@ export default {};
 p {
   margin: 0;
 }
+img {
+  height: 60px;
+  margin-right: 5px;
+}
 </style>

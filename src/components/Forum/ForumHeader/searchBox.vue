@@ -53,7 +53,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #search {
   display: flex;
   margin: 15px;

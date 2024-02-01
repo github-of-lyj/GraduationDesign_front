@@ -44,6 +44,7 @@ ul {
   list-style: none;
   padding: 0;
   display: flex;
+  flex-wrap: wrap;
 }
 li {
   float: left;
