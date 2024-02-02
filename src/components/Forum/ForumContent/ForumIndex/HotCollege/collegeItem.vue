@@ -35,5 +35,7 @@ p {
 img {
   height: 60px;
   margin-right: 5px;
+  border: 1px solid rgba(0,0,0,.1);
+  border-radius: 6px;
 }
 </style>

@@ -17,7 +17,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #blockHead {
   font-size: 25px;
   font-weight: bold;

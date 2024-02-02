@@ -1,11 +1,14 @@
 <template>
   <div>
-    <router-link :to="{
-      name:'ForumBlockPage',
-      params:{
-        blockid: 1
-      }
-    }" id="blockItem">
+    <router-link
+      :to="{
+        name: 'ForumBlockPage',
+        params: {
+          blockid: 1,
+        },
+      }"
+      id="blockItem"
+    >
       <img src="../../../../../assets/orange.jpg" />
       <div id="collegeData">
         <p id="collegeName">blockName</p>
@@ -22,7 +25,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 #blockItem {
   margin-top: 10px;
   margin-right: 40px;
@@ -45,5 +48,7 @@ p {
 img {
   height: 80px;
   margin-right: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
 }
 </style>
