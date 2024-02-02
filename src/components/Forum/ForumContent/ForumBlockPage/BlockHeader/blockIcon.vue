@@ -16,7 +16,7 @@ export default {};
 #forumBlockIcon img {
   height: 150px;
   width: 150px;
-    border: 1px solid rgba(0,0,0,.1);
-    border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
 }
 </style>

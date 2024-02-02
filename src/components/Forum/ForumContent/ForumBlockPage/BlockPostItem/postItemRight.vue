@@ -19,7 +19,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 #right {
   display: flex;
   padding: 20px;

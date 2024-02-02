@@ -1,6 +1,6 @@
 <template>
   <div id="left">
-    <div id="replyNumber">回复数</div>
+    <div id="replyNumber" class="el-icon-message">129</div>
     <div id="postTitle_Content">
       <router-link
         :to="{
@@ -21,7 +21,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 #left {
   display: flex;
   padding: 20px;
@@ -29,17 +29,17 @@ export default {};
 #replyNumber {
   display: flex;
   align-items: center;
-  font-size: 20px;
+  font-size: 15px;
 }
 #postTitle_Content {
   display: flex;
   margin-left: 50px;
 }
 #postTitle {
-  font-size: 18px;
+  font-size: 20px;
 }
 #content {
-  font-size: 14px;
+  font-size: 15px;
   margin-left: 50px;
 }
 #left div {

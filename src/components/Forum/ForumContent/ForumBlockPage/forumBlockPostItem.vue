@@ -5,6 +5,12 @@
         <postItemLeft></postItemLeft>
         <postItemRight></postItemRight>
       </li>
+
+            <li>
+        <postItemLeft></postItemLeft>
+        <postItemRight></postItemRight>
+      </li>
+      
     </ul>
   </div>
 </template>
@@ -21,8 +27,7 @@ export default {
 #forumBlockPostItem {
   margin-left: 20px;
   width: 800px;
-  border: 1px black solid;
-  border-radius: 10px;
+  
 }
 ul {
   list-style: none;
@@ -30,8 +35,12 @@ ul {
   margin: 0;
 }
 li {
+  
   display: flex;
   justify-content: space-between;
+  border: 1px black dashed;
+  border-radius: 10px;
+  margin-bottom: 5px;
 }
 
 </style>

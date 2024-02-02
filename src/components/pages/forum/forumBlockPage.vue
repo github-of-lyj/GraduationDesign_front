@@ -1,10 +1,13 @@
 <template>
-  <div id="forumBlockPage">
-    <forumBlockSide></forumBlockSide>
-    <div id="demo">
-      <forumBlockHeader></forumBlockHeader>
-      <forumBlockPostItem></forumBlockPostItem>
+  <div>
+    <div id="forumBlockPage">
+      <forumBlockSide></forumBlockSide>
+      <div id="demo">
+        <forumBlockHeader></forumBlockHeader>
+        <forumBlockPostItem></forumBlockPostItem>
+      </div>
     </div>
+    <forumBlockInput></forumBlockInput>
   </div>
 </template>
 
@@ -12,14 +15,16 @@
 import forumBlockSide from "../../Forum/ForumContent/ForumBlockPage/forumBlockSide";
 import forumBlockHeader from "../../Forum/ForumContent/ForumBlockPage/forumBlockHeader";
 import forumBlockPostItem from "../../Forum/ForumContent/ForumBlockPage/forumBlockPostItem";
+import forumBlockInput from "../../Forum/ForumContent/ForumBlockPage/forumBlockInput"
 export default {
-  components: { forumBlockSide, forumBlockHeader, forumBlockPostItem },
+  components: { forumBlockSide, forumBlockHeader, forumBlockPostItem , forumBlockInput},
 };
 </script>
 
-<style>
+<style scoped>
 #forumBlockPage {
   display: flex;
+  margin-bottom: 20px;
 }
 #demo {
   padding-left: 60px;
