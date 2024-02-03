@@ -2,12 +2,24 @@
   <div id="right">
     <div>
       <div id="author">
-        <router-link to="/forum/index">
+        <router-link 
+          :to="{
+            name: 'User',
+            params: {
+              userid: 3,
+            }
+          }">
           <i class="el-icon-user"></i> author
         </router-link>
       </div>
       <div id="latestAnswer">
-        <router-link to="/forum/index">
+        <router-link 
+          :to="{
+            name: 'User',
+            params: {
+              userid: 3,
+            }
+          }">
           <i class="el-icon-news"></i> latestAnswer
         </router-link>
       </div>

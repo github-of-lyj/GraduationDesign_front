@@ -5,6 +5,7 @@ import forumContent from "../components/pages/forum/forumContent"
 import forumIndex from "../components/pages/forum/forumIndex"
 import forumBlockPage from "../components/pages/forum/forumBlockPage"
 import forumBlockPost from "../components/pages/forum/forumBlockPost"
+import userContent from "../components/pages/user/userContent"
 export default new VueRouter({
     routes:[
         {
@@ -38,6 +39,11 @@ export default new VueRouter({
                     component: forumBlockPost
                 }
             ]
+        },
+        {
+            name: 'User',
+            path: '/user/:userid',
+            component: userContent
         }
     ]
 

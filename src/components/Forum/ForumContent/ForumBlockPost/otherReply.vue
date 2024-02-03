@@ -14,7 +14,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      number: 1,
+    };
+  },
+};
 </script>
 
 <style>
