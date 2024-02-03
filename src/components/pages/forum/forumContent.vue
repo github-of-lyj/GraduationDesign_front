@@ -1,15 +1,15 @@
 <template>
   <div>
-    <searchBox></searchBox>
+    <forumHeader></forumHeader>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-import searchBox from "../../Forum/ForumHeader/searchBox.vue";
+import forumHeader from "../../Forum/ForumHeader/forumHeader";
 
 export default {
-  components: { searchBox},
+  components: { forumHeader},
 };
 </script>
 

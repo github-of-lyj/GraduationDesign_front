@@ -3,7 +3,7 @@
     <div id="behavior">
       <p id="picture" class="el-icon-chat-line-square">发表新帖</p>
     </div>
-    <el-input v-model="input" placeholder="请填写标题"></el-input>
+    <el-input v-model="title" placeholder="请填写标题"></el-input>
     <div id="behavior">
       <a id="picture" class="el-icon-picture">图片</a>
       <a id="stick" class="el-icon-magic-stick">表情</a>
@@ -12,7 +12,7 @@
       type="textarea"
       placeholder="请输入内容"
       resize="none"
-      v-model="textarea"
+      v-model="inputWords"
       :rows="5"
       maxlength="100"
       show-word-limit
@@ -25,7 +25,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      title: '',
+      inputWords: '',
+    };
+  },
+};
 </script>
 
 <style scoped>

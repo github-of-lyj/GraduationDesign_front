@@ -5,7 +5,7 @@
       <router-link
         :to="{
           name: 'ForumBlockPost',
-          pararms: {
+          params: {
             postid: 2,
           },
         }"

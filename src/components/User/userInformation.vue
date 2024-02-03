@@ -6,7 +6,12 @@
       </div>
       <img src="../../assets/orange.jpg" id="userIcon" />
       <div style="text-align: center;">
-        <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+        <el-tooltip class="item" effect="dark" content="返回" placement="bottom-start">
+          <el-button type="primary" icon="el-icon-back" size="mini" @click="goBack"></el-button>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
+          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+        </el-tooltip>
       </div>
     </div>
     <div id="userData">
@@ -19,10 +24,10 @@
       <el-input
         type="textarea"
         rows="4"
-        placeholder="请输入内容"
         maxlength="50"
         v-model="userIntroduce"
-        show-word-limit
+        resize="none"
+        :disabled="true"
       >
       </el-input>
     </div>
@@ -33,9 +38,15 @@
 export default {
   data() {
     return {
-      userIntroduce: "",
+      userIntroduce: "你好！世界",
     };
   },
+  methods:{
+    goBack(){
+      this.$router.back()
+    }
+    
+  }
 };
 </script>
 

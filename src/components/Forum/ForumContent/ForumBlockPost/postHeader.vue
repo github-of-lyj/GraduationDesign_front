@@ -1,7 +1,14 @@
 <template>
   <div id="postHeader">
     <div id="headerPart1">查看:xx | 回复:xx</div>
-    <div id="headerPart2">帖子名称</div>
+    <div id="headerPart2">
+      <router-link :to="{
+        name:'ForumBlockPage',
+        params:{
+          blockid:1
+        }
+      }">板块名称</router-link> >> 帖子名称
+    </div>
   </div>
 </template>
 

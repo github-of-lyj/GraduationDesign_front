@@ -32,17 +32,22 @@
 export default {
   data() {
     return {
-      curPath: '',
+      curPath: this.$route.path,
     };
+
   },
-  mounted(){
-    var pos = this.$route.path.slice(1).indexOf('/') + 1
-    var str = this.$route.path.slice(0,pos)
-    if(str === '/forum')
-      this.curPath = str + '/index'
-    else
-      this.curPath = this.$route.path
-  }
+  watch:{
+      '$route.path':{
+        handler(){
+          var pos = this.$route.path.slice(1).indexOf('/') + 1
+          var str = this.$route.path.slice(0,pos)
+          if(str === '/forum')
+            this.curPath = str + '/index'
+          else
+            this.curPath = this.$route.path
+        }
+      }
+  },
 };
 </script>
 
