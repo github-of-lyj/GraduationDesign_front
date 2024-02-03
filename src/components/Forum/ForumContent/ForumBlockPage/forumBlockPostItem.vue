@@ -5,21 +5,19 @@
         <postItemLeft></postItemLeft>
         <postItemRight></postItemRight>
       </li>
-
-            <li>
+      <li>
         <postItemLeft></postItemLeft>
         <postItemRight></postItemRight>
       </li>
-      
     </ul>
   </div>
 </template>
 
 <script>
-import postItemLeft from './BlockPostItem/postItemLeft'
-import postItemRight from './BlockPostItem/postItemRight'
+import postItemLeft from "./BlockPostItem/postItemLeft";
+import postItemRight from "./BlockPostItem/postItemRight";
 export default {
-  components:{postItemLeft,postItemRight}
+  components: { postItemLeft, postItemRight },
 };
 </script>
 
@@ -27,7 +25,6 @@ export default {
 #forumBlockPostItem {
   margin-left: 20px;
   width: 800px;
-  
 }
 ul {
   list-style: none;
@@ -35,12 +32,10 @@ ul {
   margin: 0;
 }
 li {
-  
   display: flex;
   justify-content: space-between;
   border: 1px black dashed;
   border-radius: 10px;
   margin-bottom: 5px;
 }
-
 </style>

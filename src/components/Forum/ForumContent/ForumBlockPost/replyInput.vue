@@ -1,15 +1,15 @@
 <template>
-  <div id="forumBlockInput">
+  <div id="demo">
     <div id="behavior">
       <a id="picture" class="el-icon-picture">图片</a>
       <a id="stick" class="el-icon-magic-stick">表情</a>
     </div>
     <el-input
       type="textarea"
-      placeholder="请输入内容"
+      :rows="3"
       resize="none"
+      placeholder="请输入内容"
       v-model="textarea"
-      :rows="5"
       maxlength="100"
       show-word-limit
     >
@@ -31,10 +31,8 @@ export default {
 </script>
 
 <style scoped>
-#forumBlockInput{
-  margin-top: 40px;
-  margin-left: 250px;
-  margin-right: 250px;
+#demo{
+    padding: 20px;
 }
 #behavior{
   margin-bottom: 5px;

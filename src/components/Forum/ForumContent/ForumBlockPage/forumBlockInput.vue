@@ -11,7 +11,9 @@
     <el-input
       type="textarea"
       placeholder="请输入内容"
+      resize="none"
       v-model="textarea"
+      :rows="5"
       maxlength="100"
       show-word-limit
     >

@@ -3,7 +3,12 @@
     <ul>
       <li>
         <div id="userName">
-          <p class="el-icon-user">userName</p>
+          <router-link class="el-icon-user" :to="{
+            name: 'User',
+            params:{
+              userid:3
+            }
+          }">userName</router-link>
         </div>
       </li>
       <li><img src="../../../../assets/orange.jpg" id="userIcon" /></li>
@@ -11,11 +16,11 @@
         <div id="userInformation">
           <table>
             <tbody>
-              <th>
+              <th id="level">
                 <p>1</p>
                 <p>等级</p>
               </th>
-              <th>
+              <th id="experience">
                 <p>15</p>
                 <p>经验</p>
               </th>
@@ -64,6 +69,9 @@ export default {};
   justify-content: center;
   padding: 0 10px 10px 10px;
 }
+#level,#experience{
+    border-right: 1px solid #ccc;
+}
 #demo{
   display: flex;
   justify-content: center;
@@ -82,7 +90,6 @@ li {
   padding-bottom: 10px;
 }
 th {
-  border-right: 1px solid #ccc;
   text-align: center;
   font-size: 12px;
   width: 40px;

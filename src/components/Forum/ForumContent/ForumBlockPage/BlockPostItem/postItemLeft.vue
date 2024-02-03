@@ -10,8 +10,7 @@
           },
         }"
         id="postTitle"
-        >postTitle</router-link
-      >
+        >postTitle</router-link>
       <p id="content">postTitle_Content</p>
     </div>
   </div>
