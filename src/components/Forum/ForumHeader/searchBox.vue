@@ -52,16 +52,20 @@ export default {
     },
     handleSelect() {},
     startSearch() {
-      this.$router.push({
-        name: "Search",
-        query: {
-          value: this.value,
-          initialInputWords: this.inputWords,
-        },
-      });
-      this.$nextTick(function () {
-        pubsub.publish('search')
-      });
+      if (this.inputWords === "") {
+        this.$message("输入不可为空");
+      } else {
+        this.$router.push({
+          name: "Search",
+          query: {
+            value: this.value,
+            initialInputWords: this.inputWords,
+          },
+        });
+        this.$nextTick(function () {
+          pubsub.publish("search");
+        });
+      }
     },
   },
   mounted() {

@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #replyContent {
   width: 100%;
   padding: 20px;
