@@ -43,8 +43,13 @@ export default {
           var str = this.$route.path.slice(0,pos)
           if(str === '/forum')
             this.curPath = str + '/index'
-          else
-            this.curPath = this.$route.path
+          else{
+            if(str != '')
+              this.curPath = str
+            else
+              this.curPath = this.$route.path
+          }
+            
         }
       }
   },

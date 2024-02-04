@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import userInformation from '../../User/userInformation'
-import userHistory from '../../User/userHistory'
+import userInformation from '../../components/User/userInformation'
+import userHistory from '../../components/User/userHistory'
 export default {
     components:{userInformation,userHistory}
 }

@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import currentNews from "../../Message/news/currentNews.vue"
-import collegeNews from "../../Message/college/collegeNews.vue"
+import currentNews from "../../components/Message/news/currentNews.vue"
+import collegeNews from "../../components/Message/college/collegeNews.vue"
 export default {
     components:{currentNews,collegeNews}
 }

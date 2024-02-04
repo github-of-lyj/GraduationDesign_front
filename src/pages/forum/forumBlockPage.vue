@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import forumBlockSide from "../../Forum/ForumContent/ForumBlockPage/forumBlockSide";
-import forumBlockHeader from "../../Forum/ForumContent/ForumBlockPage/forumBlockHeader";
-import forumBlockPostItem from "../../Forum/ForumContent/ForumBlockPage/forumBlockPostItem";
-import forumBlockInput from "../../Forum/ForumContent/ForumBlockPage/forumBlockInput"
+import forumBlockSide from "../../components/Forum/ForumContent/ForumBlockPage/forumBlockSide";
+import forumBlockHeader from "../../components/Forum/ForumContent/ForumBlockPage/forumBlockHeader";
+import forumBlockPostItem from "../../components/Forum/ForumContent/ForumBlockPage/forumBlockPostItem";
+import forumBlockInput from "../../components/Forum/ForumContent/ForumBlockPage/forumBlockInput"
 export default {
   components: { forumBlockSide, forumBlockHeader, forumBlockPostItem , forumBlockInput},
 };

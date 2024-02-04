@@ -7,7 +7,7 @@
 
 <script>
 import pubsub from "pubsub-js";
-import forumHeader from "../../Forum/ForumHeader/forumHeader";
+import forumHeader from "../../components/Forum/ForumHeader/forumHeader";
 export default {
   components: { forumHeader },
   mounted() {

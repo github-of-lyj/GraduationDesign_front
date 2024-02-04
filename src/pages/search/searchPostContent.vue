@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import postSearch from "../../Search/postSearch"
+import postSearch from "../../components/Search/postSearch"
 export default {
     components:{postSearch}
 

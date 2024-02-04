@@ -1,14 +1,16 @@
 import VueRouter from 'vue-router'
-import indexContent from "../components/pages/index/indexContent"
-import messageContent from "../components/pages/message/messageContent"
-import forumContent from "../components/pages/forum/forumContent"
-import forumIndex from "../components/pages/forum/forumIndex"
-import forumBlockPage from "../components/pages/forum/forumBlockPage"
-import forumBlockPost from "../components/pages/forum/forumBlockPost"
-import userContent from "../components/pages/user/userContent"
-import searchContent from "../components/pages/search/searchContent"
-import searchUserContent from "../components/pages/search/searchUserContent"
-import searchPostContent from "../components/pages/search/searchPostContent"
+import indexContent from "../pages/index/indexContent"
+import messageContent from "../pages/message/messageContent"
+import forumContent from "../pages/forum/forumContent"
+import forumIndex from "../pages/forum/forumIndex"
+import forumBlockPage from "../pages/forum/forumBlockPage"
+import forumBlockPost from "../pages/forum/forumBlockPost"
+import userContent from "../pages/user/userContent"
+import searchContent from "../pages/search/searchContent"
+import searchUserContent from "../pages/search/searchUserContent"
+import searchPostContent from "../pages/search/searchPostContent"
+import searchInformationContent from "../pages/search/searchInformationContent"
+import informationContent from "../pages/information/informationContent"
 export default new VueRouter({
     routes:[
         {
@@ -63,6 +65,18 @@ export default new VueRouter({
                     name: 'SearchPost',
                     path: 'post/:searchname',
                     component: searchPostContent
+                }
+            ]
+        },
+        {
+            name: 'Information',
+            path: '/information',
+            component: informationContent,
+            children:[
+                {
+                    name: 'SearchInformation',
+                    path: 'search/:searchname',
+                    component: searchInformationContent
                 }
             ]
         }

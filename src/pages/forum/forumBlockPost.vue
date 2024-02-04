@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import postHeader from "../../Forum/ForumContent/ForumBlockPost/postHeader";
-import userData from "../../Forum/ForumContent/ForumBlockPost/userData";
-import replyContent from "../../Forum/ForumContent/ForumBlockPost/replyContent";
-import forumBlockPostInput from "../../Forum/ForumContent/ForumBlockPost/forumBlockPostInput";
+import postHeader from "../../components/Forum/ForumContent/ForumBlockPost/postHeader";
+import userData from "../../components/Forum/ForumContent/ForumBlockPost/userData";
+import replyContent from "../../components/Forum/ForumContent/ForumBlockPost/replyContent";
+import forumBlockPostInput from "../../components/Forum/ForumContent/ForumBlockPost/forumBlockPostInput";
 export default {
   components: { userData, replyContent, postHeader , forumBlockPostInput},
 };

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import userSearch from "../../Search/userSearch"
+import userSearch from "../../components/Search/userSearch"
 export default {
     components:{userSearch}
 
