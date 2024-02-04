@@ -8,9 +8,10 @@
 export default {
     methods:{
         goBack(){
-            this.$router.back()
+            this.$router.go(this.pos)
         }
-    }
+    },
+    props:['pos']
 };
 </script>
 

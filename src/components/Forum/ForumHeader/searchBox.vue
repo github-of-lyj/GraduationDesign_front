@@ -19,36 +19,53 @@
         >
         </el-option>
       </el-select>
-      <el-button type="primary">搜索</el-button>
+      <el-button type="primary" @click="startSearch">搜索</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import pubsub from "pubsub-js";
 export default {
   data() {
     return {
       options: [
         {
           key: "001",
-          value: "选项一",
+          value: "SearchPost",
           label: "帖子",
         },
         {
           key: "002",
-          value: "选项二",
+          value: "SearchUser",
           label: "用户",
         },
       ],
-      value: "帖子",
+      value: "SearchPost",
       inputWords: "",
     };
   },
+  props: ["initialInputWords"],
   methods: {
     querySearch(inputWords, callback) {
       callback([{ value: "战士鸽" }, { value: "猎宝" }, { value: "鸡煲" }]);
     },
     handleSelect() {},
+    startSearch() {
+      this.$router.push({
+        name: "Search",
+        query: {
+          value: this.value,
+          initialInputWords: this.inputWords,
+        },
+      });
+      this.$nextTick(function () {
+        pubsub.publish('search')
+      });
+    },
+  },
+  mounted() {
+    this.inputWords = this.initialInputWords;
   },
 };
 </script>

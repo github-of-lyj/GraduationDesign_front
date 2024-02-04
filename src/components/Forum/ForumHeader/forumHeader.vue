@@ -1,7 +1,7 @@
 <template>
   <div id="forumHeader">
-    <goBack></goBack>
-    <searchBox></searchBox>
+    <goBack :pos='pos'></goBack>
+    <searchBox :initialInputWords="initialInputWords"></searchBox>
   </div>
 </template>
 
@@ -9,7 +9,8 @@
 import goBack from "./goBack"
 import searchBox from "./searchBox"
 export default {
-    components:{goBack,searchBox}
+    components:{goBack,searchBox},
+    props:['initialInputWords','pos']
 
 }
 </script>

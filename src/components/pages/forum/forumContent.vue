@@ -1,6 +1,6 @@
 <template>
   <div>
-    <forumHeader></forumHeader>
+    <forumHeader initialInputWords="" pos=-1></forumHeader>
     <router-view></router-view>
   </div>
 </template>

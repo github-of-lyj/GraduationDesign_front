@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import projectIntroduce from '../Index/projectIntroduce.vue';
+import projectIntroduce from '../../Index/projectIntroduce.vue';
 export default {
     components:{projectIntroduce}
 };
