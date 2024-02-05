@@ -41,7 +41,7 @@ export default {
         handler(){
           var pos = this.$route.path.slice(1).indexOf('/') + 1
           var str = this.$route.path.slice(0,pos)
-          if(str === '/forum')
+          if(str === '/forum' || str === '/information')
             this.curPath = str + '/index'
           else{
             if(str != '')

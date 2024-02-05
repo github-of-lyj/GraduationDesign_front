@@ -52,7 +52,7 @@ export default {
     },
     handleSelect() {},
     startSearch() {
-      if (this.inputWords === "") {
+      if (this.inputWords === "" || typeof(this.inputWords) === 'undefined') {
         this.$message("输入不可为空");
       } else {
         this.$router.push({

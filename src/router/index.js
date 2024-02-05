@@ -9,7 +9,6 @@ import userContent from "../pages/user/userContent"
 import searchContent from "../pages/search/searchContent"
 import searchUserContent from "../pages/search/searchUserContent"
 import searchPostContent from "../pages/search/searchPostContent"
-import searchInformationContent from "../pages/search/searchInformationContent"
 import informationContent from "../pages/information/informationContent"
 export default new VueRouter({
     routes:[
@@ -71,14 +70,7 @@ export default new VueRouter({
         {
             name: 'Information',
             path: '/information',
-            component: informationContent,
-            children:[
-                {
-                    name: 'SearchInformation',
-                    path: 'search/:searchname',
-                    component: searchInformationContent
-                }
-            ]
+            component: informationContent
         }
     ]
 

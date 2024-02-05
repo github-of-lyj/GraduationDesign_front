@@ -16,33 +16,37 @@
 </template>
 
 <script>
-import pubsub from "pubsub-js";
+// import pubsub from "pubsub-js";
 export default {
   data() {
     return {
       inputWords: "",
     };
   },
-  props: ["initialInputWords"],
   methods: {
     querySearch(inputWords, callback) {
       callback([{ value: "战士鸽" }, { value: "猎宝" }, { value: "鸡煲" }]);
     },
     handleSelect() {},
     startSearch() {
+      // console.log("this.inputWords === kong",this.inputWords === "")
+      // console.log("typeof(this.inputWords) === undefined",typeof(this.inputWords) === "undefined")
       if (this.inputWords === "") {
+        //这里输入为空可以视为查所有，到时候考虑一下
         this.$message("输入不可为空");
       } else {
-        this.$router.push({
-          name: "Search",
-          query: {
-            value: 'SearchInformation',
-            initialInputWords: this.inputWords,
-          },
-        });
-        this.$nextTick(function () {
-          pubsub.publish("search");
-        });
+        //此处通过axios请求获取到数据之后，发布消息修改相应的数据即可即可
+  
+        // this.$router.push({
+        //   name: "Search",
+        //   query: {
+        //     value: 'SearchInformation',
+        //     initialInputWords: this.inputWords,
+        //   },
+        // });
+        // this.$nextTick(function () {
+        //   pubsub.publish("search");
+        // });
       }
     },
   },

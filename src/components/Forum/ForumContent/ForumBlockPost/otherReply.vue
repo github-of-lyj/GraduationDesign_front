@@ -15,7 +15,7 @@
                   userid: 3,
                 },
               }"
-              >userName</router-link
+              >userName：</router-link
             >
             <p id="postContent">postContentpostContentpostContentpostContent</p>
           </div>
@@ -68,7 +68,7 @@ export default {
 #postContent {
   width: 200px;
   font-size: 12px;
-  margin-left: 20px;
+  margin-left: 10px;
   overflow-wrap: break-word;
 }
 #time {

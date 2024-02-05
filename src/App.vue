@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import pageHeader from "./components/header/pageHeader.vue";
-import pageFooter from "./components/footer/pageFooter.vue"
+import pageHeader from "./components/Header/pageHeader"
+import pageFooter from "./components/Footer/pageFooter"
 
 export default {
   name: "App",

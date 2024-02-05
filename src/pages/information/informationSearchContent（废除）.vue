@@ -1,6 +1,6 @@
 <template>
   <div>
-    这里是 searchInformation
+    这里是 InformationSearchContent 
   </div>
 </template>
 

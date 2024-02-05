@@ -13,7 +13,7 @@ export default {
   mounted() {
 
     pubsub.subscribe("search", () => {
-      console.log('触发事件了')
+      // console.log('触发事件了')
       this.$router.push({
         name: this.$route.query.value,
         params: {
