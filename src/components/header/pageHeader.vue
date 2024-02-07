@@ -12,14 +12,13 @@
     </el-menu>
     <div id="user">
       <div id="sign">
-        <el-dropdown>
+        <el-dropdown @command="login">
           <span class="el-dropdown-link">
             <i class="el-icon-user"></i>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>登录</el-dropdown-item>
-            <el-dropdown-item>注册</el-dropdown-item>
+          <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-item command="Login">登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -53,6 +52,13 @@ export default {
         }
       }
   },
+  methods:{
+    login(pos){
+      this.$router.push({
+        name: pos
+      })
+    }
+  }
 };
 </script>
 

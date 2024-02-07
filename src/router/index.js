@@ -10,6 +10,7 @@ import searchContent from "../pages/search/searchContent"
 import searchUserContent from "../pages/search/searchUserContent"
 import searchPostContent from "../pages/search/searchPostContent"
 import informationContent from "../pages/information/informationContent"
+import loginContent from "../pages/login/loginContent"
 export default new VueRouter({
     routes:[
         {
@@ -71,6 +72,11 @@ export default new VueRouter({
             name: 'Information',
             path: '/information',
             component: informationContent
+        },
+        {
+            name: 'Login',
+            path: '/login',
+            component: loginContent
         }
     ]
 
