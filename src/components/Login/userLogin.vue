@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import pubsub from "pubsub-js"
 import loginPart from "./loginPart";
 import registerPart from "./registerPart";
 export default {
@@ -33,29 +34,13 @@ export default {
     };
   },
   methods: {
-    checkMail() {
-      var Mail = document.getElementById("pass-text-input-Mail").value;
-      var reg_Mail = /^[\w]+@[\w\\.-]+\.[a-zA-Z]{2,}$/;
-      var flag = reg_Mail.test(Mail);
-      var s_Mail = document.getElementById("Mail-error");
-      if ((Mail == "") | flag) {
-        s_Mail.style.display = "none";
-      } else {
-        s_Mail.style.display = "inline";
-      }
-    },
-    checkverifyCode() {
-      var verifyCode = document.getElementById("verifyCode").value;
-      var reg_verifyCode = /\d{4}/;
-      var flag = reg_verifyCode.test(verifyCode);
-      var s_verifyCode = document.getElementById("verifyCodeSend-error");
-      if ((verifyCode == "") | flag) {
-        s_verifyCode.style.display = "none";
-      } else {
-        s_verifyCode.style.display = "inline";
-      }
-    },
+
   },
+  mounted(){
+    pubsub.subscribe("registerSuccess",()=>{
+      this.isLogin = !this.isLogin
+    })
+  }
 };
 </script>
 

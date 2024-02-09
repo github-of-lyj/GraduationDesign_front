@@ -34,6 +34,7 @@
             placeholder="请输入密码"
             v-model="userRegisterInfo.userPassword"
             class="inputStyle"
+            autocomplete="off"
           />
           <p id="tipInfo" ref="userPasswordInfo">
             密码至少包含一个字母和一个数字，并且长度至少为8位
@@ -52,7 +53,7 @@
             验证码应当是六位字母以及数字的组合
           </p>
         </div>
-        <el-button round>注册</el-button>
+        <el-button round @click="sendRegisterRequest">注册</el-button>
       </form>
     </div>
   </div>
@@ -60,6 +61,7 @@
 
 <script>
 import axios from 'axios';
+import pubsub from "pubsub-js"
 export default {
   data() {
     return {
@@ -68,6 +70,12 @@ export default {
         userName: "",
         userPassword: "",
         verifyCode: "",
+      },
+      userRegister:{
+        accountErr: false,
+        nameErr: false,
+        passwordErr: false,
+        verifyCodeErr: false
       },
     };
   },
@@ -78,8 +86,10 @@ export default {
       var userAccountInfo = this.$refs.userAccountInfo;
       if ((this.userRegisterInfo.userAccount == "") | flag) {
         userAccountInfo.style.display = "none";
+        this.userRegister.accountErr = false
       } else {
         userAccountInfo.style.display = "inline-block"
+        this.userRegister.accountErr = true
       }
     },
     checkuserName() {
@@ -88,20 +98,23 @@ export default {
       var userNameInfo = this.$refs.userNameInfo;
       if ((this.userRegisterInfo.userName == "") | flag) {
         userNameInfo.style.display = "none";
+        this.userRegister.nameErr = false
       } else {
         userNameInfo.style.display = "inline-block"
+        this.userRegister.nameErr = true
       }
     },
     checkPassword(){
-      console.log('@')
       var regular_userPassword= /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
       var flag = regular_userPassword.test(this.userRegisterInfo.userPassword)
-      console.log(flag)
       var userPasswordInfo = this.$refs.userPasswordInfo
       if ((this.userRegisterInfo.userPassword == "") | flag) {
         userPasswordInfo.style.display = "none"
+        this.userRegister.passwordErr = false
       } else {
         userPasswordInfo.style.display = "inline-block"
+        this.isErr = true
+        this.userRegister.passwordErr = true
       }
     },
     checkverifyCode(){
@@ -110,12 +123,50 @@ export default {
       var verifyCodeInfo = this.$refs.verifyCodeInfo;
       if ((this.userRegisterInfo.verifyCode == "") | flag) {
         verifyCodeInfo.style.display = "none";
+        this.userRegister.verifyCodeErr = false
       } else {
         verifyCodeInfo.style.display = "inline-block"
+        this.isErr = true
+        this.userRegister.verifyCodeErr = true
       }
     },
     sendVerifyCode(){
       axios.post("http://localhost:8080/mail/sendCode",this.userRegisterInfo)
+    },
+    sendRegisterRequest(){
+      for(var key in this.userRegisterInfo){
+        if(this.userRegisterInfo[key] === ''){
+          this.$message({
+            message: "存在为空的栏目",
+            type: "warning"
+          })
+          return 
+        }
+      }
+      for(var index in this.userRegister){
+        if(this.userRegister[index]){
+          this.$message({
+            message: "请按照相应规则填写",
+            type: "warning"
+          })
+          return 
+        }
+      }
+      axios.post("http://localhost:8080/user/register",this.userRegisterInfo).then(
+        (response) => {
+          if(response.data.description){
+            this.$message({
+              message: response.data.description,
+              type: "error"
+            })
+          }else{
+            pubsub.publish('registerSuccess')
+          }
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
     }
   }
 };

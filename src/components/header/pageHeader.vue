@@ -1,17 +1,19 @@
 <template>
   <div id="pageHeader">
-    <div id="logoAndtitle">
-      <img id="logo" src="../../assets/logo.jpg" />
-      <span id="websiteTitle">研墨</span>
+    <div style="display:flex">
+      <div id="logoAndtitle">
+        <img id="logo" src="../../assets/logo.jpg" />
+        <span id="websiteTitle">研墨</span>
+      </div>
+      <el-menu class="el-menu-demo" :router="true" :default-active="curPath">
+        <el-menu-item index="/">首页</el-menu-item>
+        <el-menu-item index="/message">资讯</el-menu-item>
+        <el-menu-item index="/forum/index">论坛</el-menu-item>
+        <el-menu-item index="/information">资料</el-menu-item>
+      </el-menu>
     </div>
-    <el-menu class="el-menu-demo" :router="true" :default-active="curPath">
-      <el-menu-item index="/">首页</el-menu-item>
-      <el-menu-item index="/message">资讯</el-menu-item>
-      <el-menu-item index="/forum/index">论坛</el-menu-item>
-      <el-menu-item index="/information">资料</el-menu-item>
-    </el-menu>
     <div id="user">
-      <div id="sign">
+      <div id="sign" v-if="!isLogin">
         <el-dropdown @command="login">
           <span class="el-dropdown-link">
             <i class="el-icon-user"></i>
@@ -22,41 +24,87 @@
           </el-dropdown-menu>
         </el-dropdown>
       </div>
-      <!-- <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-      <h4 id="userName">userName</h4> -->
+      <div v-if="isLogin">
+        <el-dropdown @command='userBehavior' placement="bottom-start">
+            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+            <h4 id="userName">{{userData.userName}}</h4>
+            <el-dropdown-menu slot="dropdown" >
+                <el-dropdown-item command="Login">个人中心</el-dropdown-item>
+                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+      </div> 
     </div>
   </div>
 </template>
 <script>
+import pubsub from 'pubsub-js'
+import axios from 'axios';
 export default {
   data() {
     return {
       curPath: this.$route.path,
+      userData:{},
+      isLogin: false
     };
-
   },
-  watch:{
-      '$route.path':{
-        handler(){
-          var pos = this.$route.path.slice(1).indexOf('/') + 1
-          var str = this.$route.path.slice(0,pos)
-          if(str === '/forum' || str === '/information')
-            this.curPath = str + '/index'
-          else{
-            if(str != '')
-              this.curPath = str
-            else
-              this.curPath = this.$route.path
-          }
-            
+  watch: {
+    "$route.path": {
+      handler() {
+        var pos = this.$route.path.slice(1).indexOf("/") + 1;
+        var str = this.$route.path.slice(0, pos);
+        if (str === "/forum" || str === "/information")
+          this.curPath = str + "/index";
+        else {
+          if (str != "") this.curPath = str;
+          else this.curPath = this.$route.path;
         }
-      }
+      },
+    },
   },
-  methods:{
-    login(pos){
+  methods: {
+    login(pos) {
       this.$router.push({
-        name: pos
-      })
+        name: pos,
+      });
+    },
+    userBehavior(behavior) {
+      axios.post(`http://localhost:8080/user/${behavior}`,this.userData).then(
+        () =>{
+          if(localStorage.getItem('user') != null)
+            localStorage.removeItem('user')
+            this.isLogin = false
+            this.userData = {}
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+
+    }
+  },
+  mounted(){
+    pubsub.subscribe('userData',(msgName,userData)=>{
+      this.userData = userData
+      this.isLogin = true
+      localStorage.setItem('user',JSON.stringify(userData))
+    })
+    var userData = JSON.parse(localStorage.getItem('user'))
+    if(userData != null){
+      axios.post('http://localhost:8080/user/checkLogin',userData).then(
+        (response) => {
+          if(response.data){
+            this.isLogin = true
+            this.userData = userData
+          }else{
+            console.log('登录过期啦')
+            localStorage.removeItem('user')
+          }
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
     }
   }
 };
@@ -66,6 +114,7 @@ export default {
 #pageHeader {
   height: 80px;
   display: flex;
+  justify-content: space-between;
   margin-top: 15px;
   margin-bottom: 15px;
   border: 2px solid black;
@@ -95,10 +144,10 @@ export default {
   margin-right: 10px;
 }
 #sign {
-  margin-left: 70px;
+  margin-right: 50px;
 }
+
 .el-menu {
-  width: 80%;
   height: 80px;
   margin-left: 40px;
   display: flex;
@@ -117,6 +166,10 @@ export default {
   justify-content: center;
   width: 100px;
   font-size: 20px;
+}
+.el-dropdown{
+  display: flex;
+  align-items: center;
 }
 .el-dropdown-link {
   cursor: pointer;

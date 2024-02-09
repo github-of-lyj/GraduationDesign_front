@@ -22,24 +22,31 @@
             placeholder="请输入密码"
             v-model="userLoginInfo.userPassword"
             class="inputStyle"
+            autocomplete="off"
           />
           <p id="tipInfo" ref="userPasswordInfo">
             密码至少包含一个字母和一个数字，并且长度至少为8位
           </p>
         </div>
-        <el-button round>登录</el-button>
+        <el-button round @click="sendLoginRequest">登录</el-button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import pubsub from 'pubsub-js'
 export default {
   data() {
     return {
       userLoginInfo: {
         userName: "",
         userPassword: "",
+      },
+      userLogin: {
+        nameErr: false,
+        passwordErr: false
       },
     };
   },
@@ -50,22 +57,61 @@ export default {
       var userNameInfo = this.$refs.userNameInfo;
       if ((this.userLoginInfo.userName == "") | flag) {
         userNameInfo.style.display = "none";
+        this.userLogin.nameErr = false
       } else {
         userNameInfo.style.display = "inline-block"
+        this.userLogin.nameErr = true
       }
     },
     checkPassword(){
-      console.log('@')
       var regular_userPassword= /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
       var flag = regular_userPassword.test(this.userLoginInfo.userPassword)
-      console.log(flag)
       var userPasswordInfo = this.$refs.userPasswordInfo
       if ((this.userLoginInfo.userPassword == "") | flag) {
         userPasswordInfo.style.display = "none"
+        this.userLogin.passwordErr = false
       } else {
         userPasswordInfo.style.display = "inline-block"
+        this.userLogin.passwordErr = true
       }
-
+    },
+    sendLoginRequest(){
+      for(var key in this.userLoginInfo){
+        if(this.userLoginInfo[key] === ''){
+          this.$message({
+            message: "存在为空的栏目",
+            type: "warning"
+          })
+          return 
+        }
+      }
+      for(var index in this.userLogin){
+        if(this.userLogin[index]){
+          this.$message({
+            message: "请按照相应规则填写",
+            type: "warning"
+          })
+          return 
+        }
+      }
+      axios.post('http://localhost:8080/user/login',this.userLoginInfo).then(
+        (response) => {
+          if(response.data.description){
+            this.$message({
+              message: response.data.description,
+              type: 'error'
+            })
+          }else{
+            pubsub.publish('userData',response.data.data)
+            this.$router.push({
+              name: 'Index'
+            })
+          }
+        },
+        (err) => {
+          console.log(err)
+        }
+      )
     }
   },
 };
