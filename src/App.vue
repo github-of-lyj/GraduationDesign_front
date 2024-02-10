@@ -14,7 +14,7 @@ import pageFooter from "./components/Footer/pageFooter"
 
 export default {
   name: "App",
-  components: { pageHeader , pageFooter },
+  components: { pageHeader , pageFooter }
 };
 </script>
 

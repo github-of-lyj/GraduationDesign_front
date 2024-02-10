@@ -67,12 +67,18 @@ export default {
         if (userData != null) {
           axios.post("http://localhost:8080/user/checkLogin", userData).then(
             (response) => {
+              //说明此时发生了错误，用户登录已过期或用户异地登录
               if (response.data.description) {
+                //提示相应的信息并移除当前会话下的本地存储
                 this.$message({
                   message: response.data.description,
                   type: "warning",
                 });
                 localStorage.removeItem("user");
+                this.isLogin = false;
+                this.userData = {};
+                //无论该用户进行了什么操作，都默认回到首页，
+                this.$router.push('/')
               } else {
                 this.isLogin = true;
                 this.userData = userData;
@@ -131,6 +137,10 @@ export default {
               type: "warning",
             });
             localStorage.removeItem("user");
+            this.isLogin = false;
+            this.userData = {};
+            //无论该用户进行了什么操作，都默认回到首页，
+            this.$router.push('/')
           } else {
             this.isLogin = true;
             this.userData = userData;

@@ -6,6 +6,7 @@ import forumIndex from "../pages/forum/forumIndex"
 import forumBlockPage from "../pages/forum/forumBlockPage"
 import forumBlockPost from "../pages/forum/forumBlockPost"
 import userContent from "../pages/user/userContent"
+import currentUserContent from "../pages/user/currentUserContent"
 import searchContent from "../pages/search/searchContent"
 import searchUserContent from "../pages/search/searchUserContent"
 import searchPostContent from "../pages/search/searchPostContent"
@@ -49,6 +50,12 @@ export default new VueRouter({
             name: 'User',
             path: '/user/:userid',
             component: userContent
+        },
+        {
+            name: 'curUser',
+            path: '/currentuser',
+            component: currentUserContent
+
         },
         {
             name: 'Search',

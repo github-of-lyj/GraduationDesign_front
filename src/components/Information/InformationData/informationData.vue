@@ -11,7 +11,7 @@
         </div>
       </el-upload>
     </div>
-    <img src="http://localhost:8080/virImgs/2024/1/6/19/1707218550.jpg"> 
+    <img src="http://localhost:9527/images"> 
     <div id="informationData">
       <div>
         <tr>

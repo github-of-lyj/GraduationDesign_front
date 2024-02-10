@@ -1,5 +1,5 @@
 <template>
-  <div id="userInformation">
+  <div id="currentUserInformation">
     <div>
       <div id="userName">
         <span class="el-icon-user">userName</span>
@@ -8,6 +8,9 @@
       <div style="text-align: center;">
         <el-tooltip class="item" effect="dark" content="返回" placement="bottom-start">
           <el-button type="primary" icon="el-icon-back" size="mini" @click="goBack"></el-button>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
+          <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
         </el-tooltip>
       </div>
     </div>
@@ -48,7 +51,7 @@ export default {
 </script>
 
 <style scoped>
-#userInformation {
+#currentUserInformation {
   display: flex;
   padding-top: 10px;
   padding-bottom: 10px;
