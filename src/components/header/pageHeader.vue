@@ -1,6 +1,6 @@
 <template>
   <div id="pageHeader">
-    <div style="display:flex">
+    <div style="display: flex">
       <div id="logoAndtitle">
         <img id="logo" src="../../assets/logo.jpg" />
         <span id="websiteTitle">研墨</span>
@@ -19,33 +19,35 @@
             <i class="el-icon-user"></i>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
-          <el-dropdown-menu slot="dropdown" >
+          <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="Login">登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
       <div v-if="isLogin">
-        <el-dropdown @command='userBehavior' placement="bottom-start">
-            <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-            <h4 id="userName">{{userData.userName}}</h4>
-            <el-dropdown-menu slot="dropdown" >
-                <el-dropdown-item command="Login">个人中心</el-dropdown-item>
-                <el-dropdown-item command="logout">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
+        <el-dropdown @command="userBehavior" placement="bottom-start">
+          <el-avatar
+            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+          ></el-avatar>
+          <h4 id="userName">{{ userData.userName }}</h4>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item command="Login">个人中心</el-dropdown-item>
+            <el-dropdown-item command="logout">退出登录</el-dropdown-item>
+          </el-dropdown-menu>
         </el-dropdown>
-      </div> 
+      </div>
     </div>
   </div>
 </template>
 <script>
-import pubsub from 'pubsub-js'
-import axios from 'axios';
+import pubsub from "pubsub-js";
+import axios from "axios";
 export default {
   data() {
     return {
       curPath: this.$route.path,
-      userData:{},
-      isLogin: false
+      userData: {},
+      isLogin: false,
     };
   },
   watch: {
@@ -59,6 +61,28 @@ export default {
           if (str != "") this.curPath = str;
           else this.curPath = this.$route.path;
         }
+        //路径变化后查看当前用户的登录状态
+        console.log("路径变化了");
+        var userData = JSON.parse(localStorage.getItem("user"));
+        if (userData != null) {
+          axios.post("http://localhost:8080/user/checkLogin", userData).then(
+            (response) => {
+              if (response.data.description) {
+                this.$message({
+                  message: response.data.description,
+                  type: "warning",
+                });
+                localStorage.removeItem("user");
+              } else {
+                this.isLogin = true;
+                this.userData = userData;
+              }
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+        }
       },
     },
   },
@@ -69,44 +93,55 @@ export default {
       });
     },
     userBehavior(behavior) {
-      axios.post(`http://localhost:8080/user/${behavior}`,this.userData).then(
-        () =>{
-          if(localStorage.getItem('user') != null)
-            localStorage.removeItem('user')
-            this.isLogin = false
-            this.userData = {}
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
-
-    }
+      if (behavior === "logout") {
+        axios.post("http://localhost:8080/user/logout", this.userData).then(
+          () => {
+            if (localStorage.getItem("user") != null)
+              localStorage.removeItem("user");
+            this.isLogin = false;
+            this.userData = {};
+            this.$message({
+              message: "退出登录成功",
+              type: "success",
+            });
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
   },
-  mounted(){
-    pubsub.subscribe('userData',(msgName,userData)=>{
-      this.userData = userData
-      this.isLogin = true
-      localStorage.setItem('user',JSON.stringify(userData))
-    })
-    var userData = JSON.parse(localStorage.getItem('user'))
-    if(userData != null){
-      axios.post('http://localhost:8080/user/checkLogin',userData).then(
+  mounted() {
+    pubsub.subscribe("userData", (msgName, userData) => {
+      this.userData = userData;
+      this.isLogin = true;
+      localStorage.setItem("user", JSON.stringify(userData));
+    });
+
+    //组件重新渲染时查看当前用户的登录状态
+    console.log("组件重新渲染了");
+    var userData = JSON.parse(localStorage.getItem("user"));
+    if (userData != null) {
+      axios.post("http://localhost:8080/user/checkLogin", userData).then(
         (response) => {
-          if(response.data){
-            this.isLogin = true
-            this.userData = userData
-          }else{
-            console.log('登录过期啦')
-            localStorage.removeItem('user')
+          if (response.data.description) {
+            this.$message({
+              message: response.data.description,
+              type: "warning",
+            });
+            localStorage.removeItem("user");
+          } else {
+            this.isLogin = true;
+            this.userData = userData;
           }
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
-      )
+      );
     }
-  }
+  },
 };
 </script>
 
@@ -167,7 +202,7 @@ export default {
   width: 100px;
   font-size: 20px;
 }
-.el-dropdown{
+.el-dropdown {
   display: flex;
   align-items: center;
 }
