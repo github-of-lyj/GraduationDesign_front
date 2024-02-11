@@ -2,9 +2,9 @@
   <div id="currentUserInformation">
     <div>
       <div id="userName">
-        <span class="el-icon-user">userName</span>
+        <span class="el-icon-user">{{userData.userName}}</span>
       </div>
-      <img src="../../assets/orange.jpg" id="userIcon" />
+      <img :src="`http://localhost:8080/user/file/getUserAvatar/${userData.userAvatar}`" id="userIcon" />
       <div style="text-align: center;">
         <el-tooltip class="item" effect="dark" content="返回" placement="bottom-start">
           <el-button type="primary" icon="el-icon-back" size="mini" @click="goBack"></el-button>
@@ -16,16 +16,16 @@
     </div>
     <div id="userData">
       <div>
-        <span id="level">用户等级:10</span>
-        <span id="experience">用户经验:15</span>
-        <el-progress :text-inside="true" :stroke-width="24" :percentage="70"></el-progress>
+        <span id="level">用户等级:{{userData.userLevel}}</span>
+        <span id="experience">用户经验:{{userData.userExperience}}</span>
+        <el-progress :text-inside="true" :stroke-width="24" :percentage="getPercent()"></el-progress>
       </div>
       <p style="margin-bottom: 5px;">用户简介：</p>
       <el-input
         type="textarea"
         rows="4"
         maxlength="50"
-        v-model="userIntroduce"
+        v-model="userData.userDescription"
         resize="none"
         :disabled="true"
       >
@@ -38,14 +38,22 @@
 export default {
   data() {
     return {
-      userIntroduce: "你好！世界",
+      userData: {}
     };
   },
   methods:{
     goBack(){
       this.$router.back()
+    },
+    getPercent(){
+      if(typeof(this.userData.userExperience) === 'undefined' )
+        return 0;
+      return (this.userData.userExperience % 20) * 100
     }
-    
+  },
+  mounted(){
+    var userData = JSON.parse(localStorage.getItem("user"));
+    this.userData = userData
   }
 };
 </script>

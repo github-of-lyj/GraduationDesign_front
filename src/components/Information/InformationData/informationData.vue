@@ -11,7 +11,9 @@
         </div>
       </el-upload>
     </div>
-    <img src="http://localhost:9527/images"> 
+        <el-avatar
+            :src="`https://localhost:8080/user/file/getUserAvatar/${aa}`" 
+          ></el-avatar>
     <div id="informationData">
       <div>
         <tr>
@@ -45,6 +47,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      aa: 1,
+    };
+  },
   methods: {
     sortBySize() {
       console.log("按照 size 排序");

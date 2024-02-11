@@ -27,11 +27,11 @@
       <div v-if="isLogin">
         <el-dropdown @command="userBehavior" placement="bottom-start">
           <el-avatar
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+            :src="`http://localhost:8080/user/file/getUserAvatar/${userData.userAvatar}`"
           ></el-avatar>
           <h4 id="userName">{{ userData.userName }}</h4>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="Login">个人中心</el-dropdown-item>
+            <el-dropdown-item command="curUser">个人中心</el-dropdown-item>
             <el-dropdown-item command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -116,6 +116,11 @@ export default {
           }
         );
       }
+      if (behavior === "curUser"){
+        this.$router.push({
+          name: behavior,
+        })
+      }
     },
   },
   mounted() {
@@ -152,6 +157,9 @@ export default {
       );
     }
   },
+  beforeDestroy(){
+    pubsub.unsubscribe("userData")
+  }
 };
 </script>
 

@@ -53,6 +53,9 @@ export default {
       this.length = CollegeNewsList.length;
     });
   },
+  beforeDestroy(){   
+    pubsub.unsubscribe("universityData")
+  }
 };
 </script>
 

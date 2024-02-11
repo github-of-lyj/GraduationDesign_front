@@ -40,6 +40,9 @@ export default {
     pubsub.subscribe("registerSuccess",()=>{
       this.isLogin = !this.isLogin
     })
+  },
+  beforeDestroy(){
+    pubsub.unsubscribe("registerSuccess")
   }
 };
 </script>
