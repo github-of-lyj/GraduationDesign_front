@@ -9,13 +9,13 @@
           },
         }"
         id="forumBlockName"
-        >forumBlockName
+        >{{blockInformation.blockName}}
       </router-link>
     </div>
     <div id="forumBlockData">
-      <div>
-        <p>关注:xxx</p>
-        <p>帖子:xxx</p>
+      <div style="padding-right: 10px;">
+        <p>关注:{{blockInformation.followers}}</p>
+        <p>帖子:{{blockInformation.postNumber}}</p>
       </div>
       <el-button>关注</el-button>
     </div>
@@ -23,7 +23,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props:['blockInformation']
+};
 </script>
 
 <style scoped>
@@ -32,6 +34,7 @@ export default {};
 }
 #forumBlockTitle {
   display: flex;
+  padding-bottom: 10px;
 }
 #forumBlockName {
   font-size: 22px;

@@ -5,9 +5,9 @@
       <div id="demo">
         <forumBlockHeader></forumBlockHeader>
         <forumBlockPostItem></forumBlockPostItem>
+        <forumBlockInput></forumBlockInput>
       </div>
     </div>
-    <forumBlockInput></forumBlockInput>
   </div>
 </template>
 

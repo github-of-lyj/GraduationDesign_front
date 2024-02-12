@@ -4,25 +4,27 @@
       :to="{
         name: 'ForumBlockPage',
         params: {
-          blockid: 1,
+          blockid: BlockData.blockID,
         },
       }"
       id="blockItem"
     >
       <img src="../../../../../assets/orange.jpg" />
       <div id="collegeData">
-        <p id="collegeName">blockName</p>
+        <p id="collegeName">{{BlockData.blockName}}</p>
         <p id="postNumber">
-          <i class="el-icon-chat-line-square"></i> postNumber
+          <i class="el-icon-chat-line-square"></i> {{BlockData.postNumber}}
         </p>
-        <p id="postNumber"><i class="el-icon-time"></i> postNumber</p>
+        <p id="postNumber"><i class="el-icon-user"></i> {{BlockData.followers}}</p>
       </div>
     </router-link>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['BlockData']
+};
 </script>
 
 <style scoped>

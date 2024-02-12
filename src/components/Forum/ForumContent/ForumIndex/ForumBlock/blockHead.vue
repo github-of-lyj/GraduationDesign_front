@@ -9,17 +9,13 @@
 
 <script>
 export default {
-  data() {
-    return {
-      blockTitle: "blockTitle",
-    };
-  },
+  props: ['blockTitle']
 };
 </script>
 
 <style scoped>
 #blockHead {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   width: 20%;
   border-bottom: 1px #C2D5E3 solid;

@@ -2,32 +2,120 @@
   <div id="forumBlockSide">
     <el-col :span="12" >
       <el-menu
-        default-active="1"
         class="el-menu-vertical-demo"
-        @open="handleOpen"
-        @close="handleClose"
+        :router="true"
       >
-        <el-menu-item index="1">
-          <i class="el-icon-menu"></i>
-          <span slot="title">板块导航</span>
-        </el-menu-item>
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-document-copy"></i>
+            <span>华北地区</span>
+          </template>
+            <el-menu-item v-for="block in HuaBei" :key="block.blockID" :index="block.blockID.toString()"
+              :route="{
+                name: 'ForumBlockPage',
+                params: {
+                  blockid: block.blockID,
+                },
+              }"
+            >
+              {{block.blockName}}
+            </el-menu-item>
+        </el-submenu>
         <el-submenu index="2">
           <template slot="title">
             <i class="el-icon-document-copy"></i>
-            <span>导航一</span>
+            <span>东北三省</span>
           </template>
-          <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
+            <el-menu-item v-for="block in Dongbei" :key="block.blockID" :index="block.blockID.toString()"
+                :route="{
+                name: 'ForumBlockPage',
+                params: {
+                  blockid: block.blockID,
+                },
+              }"
+            >
+              {{block.blockName}}
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-document-copy"></i>
+            <span>华东地区</span>
+          </template>
+            <el-menu-item v-for="block in HuaDong" :key="block.blockID" :index="block.blockID.toString()"
+              :route="{
+                name: 'ForumBlockPage',
+                params: {
+                  blockid: block.blockID,
+                },
+              }"
+            >
+              {{block.blockName}}
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="4">
+          <template slot="title">
+            <i class="el-icon-document-copy"></i>
+            <span>西南地区</span>
+          </template>
+            <el-menu-item v-for="block in XiNan" :key="block.blockID" :index="block.blockID.toString()"
+              :route="{
+                name: 'ForumBlockPage',
+                params: {
+                  blockid: block.blockID,
+                },
+              }"
+            >
+              {{block.blockName}}
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="5">
+          <template slot="title">
+            <i class="el-icon-document-copy"></i>
+            <span>华南地区</span>
+          </template>
+            <el-menu-item v-for="block in HuaNan" :key="block.blockID" :index="block.blockID.toString()"
+              :route="{
+                name: 'ForumBlockPage',
+                params: {
+                  blockid: block.blockID,
+                },
+              }"
+            >
+              {{block.blockName}}
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="6">
+          <template slot="title">
+            <i class="el-icon-document-copy"></i>
+            <span>华中地区</span>
+          </template>
+            <el-menu-item v-for="block in HuaZhong" :key="block.blockID" :index="block.blockID.toString()"
+              :route="{
+                name: 'ForumBlockPage',
+                params: {
+                  blockid: block.blockID,
+                },
+              }"
+            >
+              {{block.blockName}}
+            </el-menu-item>
+        </el-submenu>
+        <el-submenu index="7">
+          <template slot="title">
+            <i class="el-icon-document-copy"></i>
+            <span>西北地区</span>
+          </template>
+            <el-menu-item v-for="block in XiBei" :key="block.blockID" :index="block.blockID.toString()"
+              :route="{
+                name: 'ForumBlockPage',
+                params: {
+                  blockid: block.blockID,
+                },
+              }"
+            >
+              {{block.blockName}}
+            </el-menu-item>
         </el-submenu>
       </el-menu>
     </el-col>
@@ -35,15 +123,52 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  methods: {
-    handleOpen(key) {
-      console.log(key);
-    },
-    handleClose(key, keyPath) {
-      console.log(key, keyPath);
-    },
+  data() {
+    return {
+      HuaBei:{},
+      Dongbei:{},
+      HuaDong:{},
+      XiNan:{},
+      HuaNan:{},
+      HuaZhong:{},
+      XiBei:{}
+    };
   },
+  methods: {
+
+  },
+  mounted(){
+    axios.get('http://localhost:8080/user/block/getAll').then(
+      (Response) => {
+        this.HuaBei = Response.data.filter((Block) => {
+          return Block.zoneName === '华北地区'
+        })
+        this.Dongbei = Response.data.filter((Block) => {
+          return Block.zoneName === '东北三省'
+        })
+        this.HuaDong = Response.data.filter((Block) => {
+          return Block.zoneName === '华东地区'
+        })
+        this.XiNan = Response.data.filter((Block) => {
+          return Block.zoneName === '西南地区'
+        })
+        this.HuaNan = Response.data.filter((Block) => {
+          return Block.zoneName === '华南地区'
+        })
+        this.HuaZhong = Response.data.filter((Block) => {
+          return Block.zoneName === '华中地区'
+        })
+        this.XiBei = Response.data.filter((Block) => {
+          return Block.zoneName === '西北地区'
+        })
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 };
 </script>
 

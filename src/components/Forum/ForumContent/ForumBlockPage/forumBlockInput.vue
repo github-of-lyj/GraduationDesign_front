@@ -38,8 +38,7 @@ export default {
 <style scoped>
 #forumBlockInput {
   margin-top: 20px;
-  margin-left: 280px;
-  margin-right: 250px;
+  margin-left: 20px;
   margin-bottom: 20px;
 }
 #behavior {
