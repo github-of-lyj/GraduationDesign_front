@@ -2,18 +2,16 @@
   <div>
     <div id="upload">
       <el-upload
-        class="upload-demo"
-        action="http://localhost:8080/information/upload"
+        class="avatar-uploader"
+        :action="`http://localhost:8080/user/file/uploadUserAvatar?userID=${userID}`"
+        :show-file-list="false"
+        :on-success="handleAvatarSuccess"
+        :before-upload="beforeAvatarUpload"
       >
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">
-          只能上传jpg/png文件，且不超过500kb
-        </div>
+        <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
     </div>
-        <el-avatar
-            :src="`https://localhost:8080/user/file/getUserAvatar/${aa}`" 
-          ></el-avatar>
     <div id="informationData">
       <div>
         <tr>
@@ -46,10 +44,12 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
-      aa: 1,
+      imageUrl: "",
+      userID: 2,
     };
   },
   methods: {
@@ -62,13 +62,52 @@ export default {
     sortByDownload() {
       console.log("按照 download 排序");
     },
+
+    handleAvatarSuccess(res, file) {
+      console.log(file);
+      this.imageUrl = URL.createObjectURL(file.raw);
+    },
+    beforeAvatarUpload(file) {
+      this.imageUrl = URL.createObjectURL(file);
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!');
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!');
+      // }
+      return true;
+    },
   },
 };
 </script>
 
 <style scoped>
-#upload{
-  margin:15px
+.el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.el-upload:hover {
+  border-color: #409eff;
+}
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+
+#upload {
+  margin: 15px;
 }
 #informationData {
   display: flex;
@@ -112,4 +151,5 @@ td {
 i:hover {
   cursor: pointer;
 }
+
 </style>

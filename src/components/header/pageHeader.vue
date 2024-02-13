@@ -110,6 +110,9 @@ export default {
               message: "退出登录成功",
               type: "success",
             });
+            this.$router.push({
+              name: 'Login'
+            })
           },
           (error) => {
             console.log(error);
