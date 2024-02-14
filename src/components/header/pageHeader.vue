@@ -132,7 +132,11 @@ export default {
       this.isLogin = true;
       localStorage.setItem("user", JSON.stringify(userData));
     });
-
+    pubsub.subscribe("changeItem", (msgName, userData) => {
+      this.userData = userData
+      this.isLogin = true;
+      localStorage.setItem("user", JSON.stringify(userData));
+    });
     //组件重新渲染时查看当前用户的登录状态
     console.log("组件重新渲染了");
     var userData = JSON.parse(localStorage.getItem("user"));

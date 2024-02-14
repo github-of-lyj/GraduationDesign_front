@@ -25,12 +25,12 @@
         <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="dialogFormVisible = true"></el-button>
         </el-tooltip>
-        <el-dialog title="修改个人信息（为空表示不修改）" :visible.sync="dialogFormVisible" :center="false" @closed="aa">
+        <el-dialog title="修改个人信息（为空表示不修改）" :visible.sync="dialogFormVisible" :center="false" @closed="changeStart">
           <el-form :model="form">
             <el-form-item label="用户头像" :label-width="formLabelWidth">
               <el-upload
                 class="avatar-uploader"
-                action="http://localhost:8080/user/file/uploadUserAvatar"
+                :action="`http://localhost:8080/user/file/uploadUserAvatar?userID=${userData.userID}`"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
@@ -78,18 +78,20 @@
 </template>
 
 <script>
-// import axios from 'axios';
+import axios from 'axios';
+import pubsub from 'pubsub-js'
 export default {
   data() {
     return {
       userData: {},
+      newUserData: {},
       dialogFormVisible: false,
       isEdit: false,
       form: {
         userName: "",
         userDescription: "",
         imageUrl:"",
-        file:""
+        fileID:"",
       },
       formLabelWidth: "120px",
     };
@@ -102,27 +104,67 @@ export default {
       if (typeof this.userData.userExperience === "undefined") return 0;
       return (this.userData.userExperience % 20) * 100;
     },
-    handleAvatarSuccess(res, file) {
-      console.log(file);
+    handleAvatarSuccess(fileID, file) {
+      this.form.fileID = fileID
       this.form.imageUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
-      this.form.imageUrl = URL.createObjectURL(file);
-      this.form.file = file
-      // if (!isJPG) {
-      //   this.$message.error('上传头像图片只能是 JPG 格式!');
-      // }
-      // if (!isLt2M) {
-      //   this.$message.error('上传头像图片大小不能超过 2MB!');
-      // }
-      return false;
+      const isJPG = file.type === 'image/jpeg';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!');
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
     },
-    aa(){
-      this.form.file.userID = this.userData.userID
-      if(this.isEdit)
-        console.log('要修改',console.log(this.form))
-      else
-        console.log('不修改',console.log(this.form))
+    changeStart(){
+      if(this.isEdit){
+        if(this.form.userName != ""){
+          this.userData.userName = this.form.userName
+          axios.post(`http://localhost:8080/user/updateUserName/${this.userData.userName}/${this.userData.userID}`).then(
+            () => {     
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        }
+        if(this.form.userDescription != ""){
+          this.userData.userDescription = this.form.userDescription
+          axios.post(`http://localhost:8080/user/updateUserDescription/${this.userData.userDescription}/${this.userData.userID}`).then(
+            () => {
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        }
+        if(this.form.imageUrl != ""){
+          this.userData.userAvatar = this.form.fileID
+          axios.post(`http://localhost:8080/user/updateUserAvatar/${this.userData.userID}/${this.userData.userAvatar}`).then(
+            () => {
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        }
+        pubsub.publish('changeItem',this.userData)
+        this.form.userName = ""
+        this.form.userDescription = ""
+        this.form.imageUrl = ""
+        this.form.fileID = ""
+      }
+      else{
+        this.form.userName = ""
+        this.form.userDescription = ""
+        this.form.imageUrl = ""
+        this.form.fileID = ""
+        console.log('不修改')
+      }
+      
     }
   },
   mounted() {
