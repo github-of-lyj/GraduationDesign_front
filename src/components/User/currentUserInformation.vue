@@ -104,10 +104,12 @@ export default {
       if (typeof this.userData.userExperience === "undefined") return 0;
       return (this.userData.userExperience % 20) * 100;
     },
+    //上传成功后返回相应的文件ID并存储
     handleAvatarSuccess(fileID, file) {
       this.form.fileID = fileID
       this.form.imageUrl = URL.createObjectURL(file.raw);
     },
+    //对上传文件的类型以及大小检查
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg';
       const isLt2M = file.size / 1024 / 1024 < 2;
@@ -121,20 +123,29 @@ export default {
     },
     changeStart(){
       if(this.isEdit){
-        if(this.form.userName != ""){
-          this.userData.userName = this.form.userName
-          axios.post(`http://localhost:8080/user/updateUserName/${this.userData.userName}/${this.userData.userID}`).then(
-            () => {     
+        if(this.form.userName != this.userData.userName){
+          axios.post(`http://localhost:8080/user/updateUserName/${this.form.userName}/${this.userData.userID}`).then(
+            (response) => {
+              if(response.data.description){
+                this.$message({
+                message: response.data.description,
+                type: 'error'
+                })
+              }else{
+                this.userData.userName = this.form.userName
+                pubsub.publish('changeItem',this.userData)
+              }
             },
             (error) => {
               console.log(error)
             }
           )
         }
-        if(this.form.userDescription != ""){
-          this.userData.userDescription = this.form.userDescription
-          axios.post(`http://localhost:8080/user/updateUserDescription/${this.userData.userDescription}/${this.userData.userID}`).then(
+        if(this.form.userDescription != this.userData.userDescription){
+          axios.post(`http://localhost:8080/user/updateUserDescription/${this.form.userDescription}/${this.userData.userID}`).then(
             () => {
+              this.userData.userDescription = this.form.userDescription
+              pubsub.publish('changeItem',this.userData)
             },
             (error) => {
               console.log(error)
@@ -142,34 +153,31 @@ export default {
           )
         }
         if(this.form.imageUrl != ""){
-          this.userData.userAvatar = this.form.fileID
-          axios.post(`http://localhost:8080/user/updateUserAvatar/${this.userData.userID}/${this.userData.userAvatar}`).then(
+          axios.post(`http://localhost:8080/user/updateUserAvatar/${this.userData.userID}/${this.form.fileID}`).then(
             () => {
+              this.userData.userAvatar = this.form.fileID
+              pubsub.publish('changeItem',this.userData)
             },
             (error) => {
               console.log(error)
             }
           )
-        }
-        pubsub.publish('changeItem',this.userData)
-        this.form.userName = ""
-        this.form.userDescription = ""
-        this.form.imageUrl = ""
-        this.form.fileID = ""
+        }    
       }
       else{
-        this.form.userName = ""
-        this.form.userDescription = ""
-        this.form.imageUrl = ""
-        this.form.fileID = ""
         console.log('不修改')
       }
       
     }
   },
+  //为 userData 赋值，便于页面显示
+  //将 form 当中的值赋初值，使得初始显示时为用户的本身的值
   mounted() {
     var userData = JSON.parse(localStorage.getItem("user"));
     this.userData = userData;
+    this.form.userName = userData.userName
+    this.form.userDescription = userData.userDescription
+    this.form.imageUrl = `http://localhost:8080/user/file/getUserAvatar/${userData.userAvatar}`
   },
 };
 </script>
