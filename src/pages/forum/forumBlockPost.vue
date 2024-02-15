@@ -1,6 +1,6 @@
 <template>
   <div>
-    <postHeader></postHeader>
+    <postHeader :postData = postData></postHeader>
     <div id="forumBlockPost">
       <userData></userData>
       <replyContent></replyContent>
@@ -10,7 +10,6 @@
       <replyContent></replyContent>
     </div>
     <forumBlockPostInput></forumBlockPostInput>
-
   </div>
 </template>
 
@@ -19,8 +18,25 @@ import postHeader from "../../components/Forum/ForumContent/ForumBlockPost/postH
 import userData from "../../components/Forum/ForumContent/ForumBlockPost/userData";
 import replyContent from "../../components/Forum/ForumContent/ForumBlockPost/replyContent";
 import forumBlockPostInput from "../../components/Forum/ForumContent/ForumBlockPost/forumBlockPostInput";
+import axios from 'axios';
 export default {
+  data() {
+    return {
+      postData: {},
+    };
+  },
   components: { userData, replyContent, postHeader , forumBlockPostInput},
+  mounted(){
+    axios.get(`http://localhost:8080/user/post/getPost/${this.$route.params.postid}`).then(
+      (response) => {
+        this.postData = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    
+  }
 };
 </script>
 

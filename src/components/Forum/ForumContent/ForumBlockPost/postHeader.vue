@@ -1,19 +1,21 @@
 <template>
   <div id="postHeader">
-    <div id="headerPart1">查看:xx | 回复:xx</div>
+    <div id="headerPart1">回复:{{postData.replyNumber}}</div>
     <div id="headerPart2">
       <router-link :to="{
         name:'ForumBlockPage',
         params:{
           blockid:1
         }
-      }">板块名称</router-link> >> 帖子名称
+      }">{{postData.blockName}}</router-link> >> {{postData.postTitle}}
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['postData']
+};
 </script>
 
 <style scoped>
@@ -24,10 +26,12 @@ export default {};
   margin-bottom: 5px;
 }
 #headerPart1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 141.6px;
   color: #999 !important;
   font-size: 12px;
-  text-align: center;
 }
 #headerPart2 {
   padding-left: 20px;

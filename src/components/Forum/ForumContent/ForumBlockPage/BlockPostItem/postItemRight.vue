@@ -2,7 +2,7 @@
   <div id="right">
     <div id="author">
       <div>
-        <p><i class="el-icon-user"></i>{{author}}</p>
+        <p><i class="el-icon-user"></i>{{postData.userName}}</p>
       </div>
       <div id="date">
         <p>{{postData.postDate}}</p>
@@ -20,32 +20,16 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      author: '',
       latestAnswerName: '',
       latestAnswerDate: ''
     };
   },
   props:['postData'],
   mounted(){
-    axios.get(`http://localhost:8080/user/getUserName/${this.postData.userID}`).then(
-      (response) => {
-        this.author = response.data
-      },
-      (error) => {
-        console.log(error)
-      }
-    )
     axios.get(`http://localhost:8080/user/postReply/getLatestPostReplyFromPost/${this.postData.postID}`).then(
       (response) => {
+        this.latestAnswerName = response.data.userName
         this.latestAnswerDate = response.data.postReplyTime
-        axios.get(`http://localhost:8080/user/getUserName/${response.data.userID}`).then(
-          (response) => {
-            this.latestAnswerName = response.data
-          },
-          (error) => {
-            console.log(error)
-          }
-        )
       },
       (error) => {
         console.log(error)

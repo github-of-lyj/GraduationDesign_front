@@ -8,11 +8,12 @@
         :to="{
           name: 'ForumBlockPost',
           params: {
-            postid: 2,
+            postid: postData.postID,
           },
         }"
-        id="postTitle"
-        >{{postData.postTitle}}</router-link>
+        id="postTitle">
+          {{postData.postTitle}}
+        </router-link>
       <p id="content">{{postContent}}</p>
     </div>
   </div>
