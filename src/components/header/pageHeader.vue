@@ -2,7 +2,7 @@
   <div id="pageHeader">
     <div style="display: flex">
       <div id="logoAndtitle">
-        <img id="logo" src="../../assets/logo.jpg" />
+        <img id="logo" src="http://localhost:8080/user/file/getUserAvatar/13" />
         <span id="websiteTitle">研墨</span>
       </div>
       <el-menu class="el-menu-demo" :router="true" :default-active="curPath">
@@ -62,7 +62,6 @@ export default {
           else this.curPath = this.$route.path;
         }
         //路径变化后查看当前用户的登录状态
-        console.log("路径变化了");
         var userData = JSON.parse(localStorage.getItem("user"));
         if (userData != null) {
           axios.post("http://localhost:8080/user/checkLogin", userData).then(
@@ -163,6 +162,7 @@ export default {
         }
       );
     }
+    console.log(this._data)
   },
   beforeDestroy(){
     pubsub.unsubscribe("userData")

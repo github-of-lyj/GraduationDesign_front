@@ -25,7 +25,6 @@ export default {
     //利用导航菜单跳转时调用
     "$route.path":{
       handler(){
-        console.log('调用了')
         axios.get(`http://localhost:8080/user/block/get/${this.$route.params.blockid}`).then(
           (response) => {
             this.blockData = response.data

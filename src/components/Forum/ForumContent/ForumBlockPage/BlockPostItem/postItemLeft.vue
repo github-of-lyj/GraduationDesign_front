@@ -1,6 +1,8 @@
 <template>
   <div id="left">
-    <div id="replyNumber" class="el-icon-message">129</div>
+    <div id="replyNumber" class="el-icon-message">
+      <p style="margin-left: 3px;">{{postData.replyNumber}}</p>
+    </div>
     <div id="postTitle_Content">
       <router-link
         :to="{
@@ -10,14 +12,33 @@
           },
         }"
         id="postTitle"
-        >postTitle</router-link>
-      <p id="content">postTitle_Content</p>
+        >{{postData.postTitle}}</router-link>
+      <p id="content">{{postContent}}</p>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      postContent: "",
+    };
+  },
+  props:['postData'],
+  mounted(){
+    axios.get(`http://localhost:8080/user/postReply/getEarliestPostReplyFromPost/${this.postData.postID}`).then(
+      (response) => {
+        this.postContent = response.data.postReplyContent
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+};
 </script>
 
 <style scoped>
@@ -38,6 +59,8 @@ export default {};
   font-size: 20px;
 }
 #content {
+  display: flex;
+  align-items: center;
   font-size: 15px;
   margin-left: 50px;
 }

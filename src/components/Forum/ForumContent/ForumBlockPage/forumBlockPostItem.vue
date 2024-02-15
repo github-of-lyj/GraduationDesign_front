@@ -1,13 +1,9 @@
 <template>
   <div id="forumBlockPostItem">
     <ul>
-      <li>
-        <postItemLeft></postItemLeft>
-        <postItemRight></postItemRight>
-      </li>
-      <li>
-        <postItemLeft></postItemLeft>
-        <postItemRight></postItemRight>
+      <li v-for="post in postList" :key="post.postID">
+        <postItemLeft :postData = post></postItemLeft>
+        <postItemRight :postData = post></postItemRight>
       </li>
     </ul>
   </div>
@@ -16,8 +12,39 @@
 <script>
 import postItemLeft from "./BlockPostItem/postItemLeft";
 import postItemRight from "./BlockPostItem/postItemRight";
+import axios from 'axios';
 export default {
+  data() {
+    return {
+      postList: {},
+    };
+  },
   components: { postItemLeft, postItemRight },
+  watch:{
+    '$route.path':{
+      handler(){
+        axios.get(`http://localhost:8080/user/post/getPosts/${this.$route.params.blockid}`).then(
+          (response) => {
+            this.postList = response.data
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    }
+  },
+  mounted(){
+    axios.get(`http://localhost:8080/user/post/getPosts/${this.$route.params.blockid}`).then(
+      (response) => {
+        this.postList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+
+  }
 };
 </script>
 
