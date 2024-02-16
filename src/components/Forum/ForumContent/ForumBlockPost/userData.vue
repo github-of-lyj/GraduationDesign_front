@@ -8,24 +8,24 @@
             params:{
               userid:3
             }
-          }">userName</router-link>
+          }">{{userData.userName}}</router-link>
         </div>
       </li>
-      <li><img src="../../../../assets/orange.jpg" id="userIcon" /></li>
+      <li><img v-if="this.userData.userAvatar" :src="`http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`" id="userIcon" /></li>
       <li>
         <div id="userInformation">
           <table>
             <tbody>
               <th id="level">
-                <p>1</p>
+                <p>{{userData.userLevel}}</p>
                 <p>等级</p>
               </th>
               <th id="experience">
-                <p>15</p>
+                <p>{{userData.userExperience}}</p>
                 <p>经验</p>
               </th>
               <th>
-                <p>10</p>
+                <p>{{postCount}}</p>
                 <p>帖子</p>
               </th>
             </tbody>
@@ -34,7 +34,7 @@
       </li>
       <li id="demo">
         <div id="progress">
-          <el-progress :text-inside="true" :stroke-width="20" :percentage="70">
+          <el-progress :text-inside="true" :stroke-width="20" :percentage="getPercent()">
           </el-progress>
         </div>
       </li>
@@ -43,7 +43,42 @@
 </template>
 
 <script>
-export default {};
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      userData: {},
+      postCount: ''
+    };
+  },
+  props:['userName'],
+  methods:{
+    getPercent() {
+      if (typeof this.userData.userExperience === "undefined") 
+        return 0;
+      return (this.userData.userExperience % 20) * 100;
+    },
+  },
+  mounted(){
+    axios.get(`http://localhost:8080/user/getUser/${this.userName}`).then(
+      (response) => {
+        this.userData = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    axios.get(`http://localhost:8080/user/post/getUserPostNumber/${this.userName}`).then(
+      (response) => {
+        this.postCount = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+};
 </script>
 
 <style scoped>

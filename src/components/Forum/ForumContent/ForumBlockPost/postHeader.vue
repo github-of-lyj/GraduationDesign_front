@@ -13,8 +13,29 @@
 </template>
 
 <script>
+import axios from 'axios';
+import pubsub from 'pubsub-js'
 export default {
-  props:['postData']
+    data() {
+      return {
+        postData: {},
+      };
+    },
+    mounted(){
+    axios.get(`http://localhost:8080/user/post/getPost/${this.$route.params.postid}`).then(
+      (response) => {
+        this.postData = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    pubsub.subscribe('updateReply', ()=>{
+      this.postData.replyNumber = this.postData.replyNumber + 1
+    })
+    
+    
+  }
 };
 </script>
 

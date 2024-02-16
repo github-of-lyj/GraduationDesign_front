@@ -1,10 +1,10 @@
 <template>
   <div id="replyContent">
     <div id="mainAnswer">
-      <p>发表时间</p>
+      <p>{{postReply.postReplyTime}}</p>
     </div>
     <div id="answerData">
-      <div id="answerInfomation">这是回答的一些信息</div>
+      <div id="answerInfomation">{{postReply.postReplyContent}}</div>
       <otherReply></otherReply>
     </div>
   </div>
@@ -24,6 +24,7 @@ export default {
       console.log(val);
     },
   },
+  props:['postReply']
 };
 </script>
 

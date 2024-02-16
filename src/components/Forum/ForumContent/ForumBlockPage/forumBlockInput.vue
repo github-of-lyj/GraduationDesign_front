@@ -3,43 +3,109 @@
     <div id="behavior">
       <p id="picture" class="el-icon-chat-line-square">发表新帖</p>
     </div>
-    <el-input v-model="title" placeholder="请填写标题"></el-input>
-    <div id="behavior">
-      <a id="picture" class="el-icon-picture">图片</a>
-      <a id="stick" class="el-icon-magic-stick">表情</a>
-    </div>
+    <el-input
+      v-model="publishData.postTitle"
+      placeholder="请填写标题"
+    ></el-input>
+    <div id="behavior"></div>
     <el-input
       type="textarea"
       placeholder="请输入内容"
       resize="none"
-      v-model="inputWords"
+      v-model="publishData.postReplyContent"
       :rows="5"
       maxlength="100"
       show-word-limit
     >
     </el-input>
     <div id="replyButton">
-      <el-button type="primary" plain>发表</el-button>
+      <el-button type="primary" plain @click="publish">发表</el-button>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
-      title: '',
-      inputWords: '',
+      publishData: {
+        postTitle: "",
+        postReplyContent: "",
+        userID: "",
+        blockID: "",
+        postID: "",
+      },
     };
+  },
+  methods: {
+    publish() {
+      var userData = JSON.parse(localStorage.getItem("user"));
+      if (userData != null) {
+        axios.post("http://localhost:8080/user/checkLogin", userData).then(
+          (response) => {
+            if (response.data.description) {
+              this.$message({
+                message: response.data.description,
+                type: "warning",
+              });
+              localStorage.removeItem("user");
+              this.isLogin = false;
+              this.userData = {};
+            } else {
+              this.publishData.userID = userData.userID
+              this.publishData.blockID = this.$route.params.blockid
+              axios.post('http://localhost:8080/user/post/insertNewPost',this.publishData).then(
+                (response) => {
+                  this.publishData.postID = response.data
+                  axios.post('http://localhost:8080/user/postReply/insertNewPostReply',this.publishData).then(
+                    () => {
+                      console.log(this.publishData.postID)
+                      this.$router.push({
+                        name: 'ForumBlockPost',
+                        params:{
+                          postid:this.publishData.postID
+                        }
+                      })
+                    },
+                    (error) => {
+                      console.log(error)
+                    }
+                  )
+                },
+                (error) => {
+                  console.log(error)
+                }
+              )
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }else{
+        this.$message({
+          message: '用户未登录',
+        })
+      }
+    },
+  },
+  mounted() {
+
+
   },
 };
 </script>
 
 <style scoped>
 #forumBlockInput {
-  margin-top: 20px;
+  border: 1px dotted black;
+  padding-left: 20px;
+  margin-top: 50px;
+  padding-right: 20px;
   margin-left: 20px;
   margin-bottom: 20px;
+  border-radius: 10px;
 }
 #behavior {
   padding-top: 10px;
