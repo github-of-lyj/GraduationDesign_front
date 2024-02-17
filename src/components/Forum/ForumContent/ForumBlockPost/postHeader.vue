@@ -30,12 +30,13 @@ export default {
         console.log(error)
       }
     )
-    pubsub.subscribe('updateReply', ()=>{
+    pubsub.subscribe('updateReplyNumber', ()=>{
       this.postData.replyNumber = this.postData.replyNumber + 1
     })
-    
-    
-  }
+  },
+  beforeDestroy() {
+    pubsub.unsubscribe('updateReplyNumber')
+  },
 };
 </script>
 

@@ -5,7 +5,7 @@
     </el-badge>
     <div id="replyMain" v-show="isShow">
       <div id="replyContent">
-        <div id="otherUserReply">
+        <div id="otherUserReply"  v-for="userReply in userReplyList" :key="userReply.userReplyID">
           <div style="display: flex; align-items: center">
             <router-link
               id="nameRouter"
@@ -15,31 +15,73 @@
                   userid: 3,
                 },
               }"
-              >userName：</router-link
+              style="color: #2d64b3;"
             >
-            <p id="postContent">postContentpostContentpostContentpostContent</p>
+              {{userReply.userName}}：
+            </router-link>
+            <p id="postContent">{{userReply.userReplyContent}}</p>
           </div>
-          <p id="time">data</p>
+          <p id="time">{{userReply.userReplyTime}}</p>
         </div>
       </div>
       <el-divider direction="vertical"></el-divider>
       <div id="replyInput">
-        <replyInput></replyInput>
+        <replyInput :postReplyID=postReplyID></replyInput>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+import pubsub from 'pubsub-js'
 import replyInput from "./replyInput";
 export default {
   components: { replyInput },
   data() {
     return {
-      number: 1,
-      isShow: false
+      number: '?',
+      isShow: false,
+      userReplyList:{}
     };
   },
+  props:['postReplyID'],
+  mounted(){
+    axios.get(`http://localhost:8080/user/userReply/selectUserReplyCount/${this.postReplyID}`).then(
+      (response) => {
+        this.number = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    axios.get(`http://localhost:8080/user/userReply/selectAllUserReply/${this.postReplyID}`).then(
+      (response) => {
+        this.userReplyList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    pubsub.subscribe('updateUserReply',() => {
+      axios.get(`http://localhost:8080/user/userReply/selectUserReplyCount/${this.postReplyID}`).then(
+        (response) => {
+          this.number = response.data
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      axios.get(`http://localhost:8080/user/userReply/selectAllUserReply/${this.postReplyID}`).then(
+        (response) => {
+          this.userReplyList = response.data
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    })
+  }
 };
 </script>
 
@@ -51,14 +93,14 @@ export default {
   border-radius: 10px;
 }
 #replyContent {
-  width: 50%;
+  width: 70%;
   padding: 0;
 }
 #otherUserReply {
   justify-content: space-between;
   display: flex;
   margin-left: 5px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 #nameRouter {
   text-decoration: none;
@@ -68,13 +110,15 @@ export default {
 #postContent {
   width: 200px;
   font-size: 12px;
-  margin-left: 10px;
   overflow-wrap: break-word;
+  color: #949494;
+  margin: 0;
 }
 #time {
   display: flex;
   align-items: center;
   font-size: 12px;
+  margin: 0;
   margin-right: 20px;
 }
 #replyInput {

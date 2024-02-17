@@ -49,7 +49,7 @@ export default {
         console.log(error)
       }
     )
-    pubsub.subscribe('updateReply',() => {
+    pubsub.subscribe('updatePostReply',() => {
       axios.get(`http://localhost:8080/user/postReply/getAllReplyFromPost/${this.$route.params.postid}`).then(
         (response) => {
           this.postReplyList = response.data
@@ -61,7 +61,7 @@ export default {
     })
   },
   beforeDestroy(){
-    pubsub.unsubscribe('updateReply')
+    pubsub.unsubscribe('updatePostReply')
   }
 
 };

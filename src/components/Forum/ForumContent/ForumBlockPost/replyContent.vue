@@ -5,7 +5,7 @@
     </div>
     <div id="answerData">
       <div id="answerInfomation">{{postReply.postReplyContent}}</div>
-      <otherReply></otherReply>
+      <otherReply :postReplyID = postReply.postReplyID></otherReply>
     </div>
   </div>
 </template>
@@ -14,11 +14,6 @@
 import otherReply from "./otherReply"
 export default {
   components:{otherReply},
-  data() {
-    return {
-      number:1
-    };
-  },
   methods: {
     handleChange(val) {
       console.log(val);

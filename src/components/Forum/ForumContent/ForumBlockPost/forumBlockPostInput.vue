@@ -49,8 +49,8 @@ export default {
               axios.post("http://localhost:8080/user/postReply/insertNewPostReply",this.publishData)
                 .then(
                   () => {
-                    console.log("执行了")
-                    pubsub.publish('updateReply')
+                    pubsub.publish('updatePostReply')
+                    pubsub.publish('updateReplyNumber')
                   },
                   (error) => {
                     console.log(error);
