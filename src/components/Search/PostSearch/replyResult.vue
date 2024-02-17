@@ -6,22 +6,22 @@
         :to="{
           name: 'ForumBlockPost',
           params: {
-            postid: 2,
+            postid: postReply.postID,
           },
         }"
-        >postTitle</router-link
+        >{{postReply.postTitle}}</router-link
       ></span
     >
-    <div id="replyContent">这里是 replyContent 的内容</div>
+    <div id="replyContent">{{postReply.postReplyContent}}</div>
     <span id="blockName"
       >板块名称:<router-link
         :to="{
           name: 'ForumBlockPage',
           params: {
-            blockid: 1,
+            blockid: postReply.blockID,
           },
         }"
-        >blockname</router-link
+        >{{postReply.blockName}}</router-link
       ></span
     >
     <span id="author"
@@ -29,18 +29,19 @@
         :to="{
           name: 'User',
           params: {
-            userid: 3,
+            userid: postReply.userID,
           },
         }"
-        >authorname</router-link
-      ></span
-    >
-    <span id="time">时间</span>
+        >{{postReply.userName}}</router-link
+      ></span>
+    <span id="time">{{postReply.postReplyTime}}</span>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['postReply']
+};
 </script>
 
 <style scoped>

@@ -5,21 +5,21 @@
       :to="{
         name: 'ForumBlockPost',
         params: {
-          postid: 2,
+          postid: post.postID,
         },
       }"
-      >postTitle</router-link
+      >{{post.postTitle}}</router-link
     >
-    <div id="postContent">这里是postContent的内容</div>
+    <div id="postContent">{{post.postReplyContent}}</div>
     <span id="blockName"
       >板块名称:<router-link
         :to="{
           name: 'ForumBlockPage',
           params: {
-            blockid: 1,
+            blockid: post.blockID,
           },
         }"
-        >blockname</router-link
+        >{{post.blockName}}</router-link
       ></span
     >
     <span id="author"
@@ -27,18 +27,20 @@
         :to="{
           name: 'User',
           params: {
-            userid: 3,
+            userid: post.userID,
           },
         }"
-        >authorname</router-link
+        >{{post.userName}}</router-link
       ></span
     >
-    <span id="time">时间</span>
+    <span id="time">{{post.postDate}}</span>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['post']
+};
 </script>
 
 <style scoped>
