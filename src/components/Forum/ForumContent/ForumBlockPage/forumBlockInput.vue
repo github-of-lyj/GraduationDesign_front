@@ -100,7 +100,7 @@ export default {
 <style scoped>
 #forumBlockInput {
   border: 1px dotted black;
-  padding-left: 20px;
+  padding-left: 20px; 
   margin-top: 50px;
   padding-right: 20px;
   margin-left: 20px;

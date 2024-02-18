@@ -3,31 +3,28 @@
     <div>
       <div id="titleName">
         <div id="titleTheme">
-          <router-link :to="{
-            name: 'ForumBlockPost',
-            params:{
-              postid: 2
-            }
-          }">titleTheme</router-link>
+          <span>回复数：{{hotPost.replyNumber}}</span>
         </div>
         <div id="postName">
           <router-link :to="{
             name: 'ForumBlockPost',
             params:{
-              postid:2
+              postid: hotPost.postID
             }
-          }">postName</router-link>
+          }">{{hotPost.postTitle}}</router-link> 
         </div>
       </div>
       <div id="postContent">
-        <div id="themeContent">themeContent</div>
+        <div id="themeContent">{{hotPost.postReplyContent}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['hotPost']
+};
 </script>
 
 <style>

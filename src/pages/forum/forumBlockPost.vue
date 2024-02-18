@@ -1,12 +1,19 @@
 <template>
   <div>
     <postHeader></postHeader>
-      <div v-for="postReply in postReplyList" :key="postReply.postReplyID">
+      <div v-for="postReply in postReplyList.slice(curPage*pageSize, curPage*pageSize + pageSize)" :key="postReply.postReplyID">
         <div id="forumBlockPost" >
           <userData :userName = postReply.userName></userData>
           <replyContent :postReply = postReply></replyContent>
         </div>
       </div>
+      <el-pagination
+          layout="prev, pager, next , jumper"
+          :total="postReplyList.length"
+          :page-size="pageSize"
+          @current-change="pageChange"
+        >
+     </el-pagination>
     <forumBlockPostInput></forumBlockPostInput>
   </div>
 </template>
@@ -22,10 +29,18 @@ import pubsub from 'pubsub-js'
 export default {
   data() {
     return {
-      postReplyList: {},
+      postReplyList: [],
+      pageSize: 10,
+      curPage: 0,
     };
   },
   components: { userData, replyContent, postHeader , forumBlockPostInput},
+  methods:{
+    pageChange(page){
+      console.log("@")
+      this.curPage = page - 1
+    }
+  },
   watch:{
     "$route.path":{
       handler(){
@@ -74,5 +89,8 @@ export default {
   margin-right: 250px;
   margin-bottom: 5px;
   border: 1px #e5e5e5 solid;
+}
+.el-pagination{
+  text-align: center;
 }
 </style>

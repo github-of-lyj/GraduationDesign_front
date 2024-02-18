@@ -1,11 +1,21 @@
 <template>
   <div id="forumBlockPostItem">
-    <ul>
-      <li v-for="post in postList" :key="post.postID">
+    <div v-if="!postList.length" id="NoResultHandle">
+      <p>该板块居然没有帖子呢 (°ー°〃)</p>
+    </div>
+    <ul v-if="postList.length">
+      <li v-for="post in postList.slice(curPage*pageSize, curPage*pageSize + pageSize)" :key="post.postID">
         <postItemLeft :postData = post></postItemLeft>
         <postItemRight :postData = post></postItemRight>
       </li>
     </ul>
+    <el-pagination
+          layout="prev, pager, next , jumper"
+          :total="postList.length"
+          :page-size="pageSize"
+          @current-change="pageChange"
+        >
+     </el-pagination>
   </div>
 </template>
 
@@ -16,8 +26,16 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      postList: {},
+      postList: [],
+      pageSize: 10,
+      curPage: 0,
     };
+  },
+  methods:{
+    pageChange(page){
+      console.log("@")
+      this.curPage = page - 1
+    }
   },
   components: { postItemLeft, postItemRight },
   watch:{
@@ -52,6 +70,16 @@ export default {
 #forumBlockPostItem {
   margin-left: 20px;
   width: 800px;
+}
+#NoResultHandle{
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px black dotted;
+  border-radius: 10px;
+}
+.el-pagination{
+  text-align: center;
 }
 ul {
   list-style: none;

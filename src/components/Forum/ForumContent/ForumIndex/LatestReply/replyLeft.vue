@@ -9,19 +9,21 @@
                 postid: 2,
               },
             }"
-            >postName</router-link
+            >{{HotPostReply.postTitle}}</router-link 
           >
         </div>
       </div>
       <div id="postContent">
-        <div id="themeContent">answerContent</div>
+        <div id="themeContent">{{HotPostReply.postReplyContent}}</div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['HotPostReply']
+};
 </script>
 
 <style>

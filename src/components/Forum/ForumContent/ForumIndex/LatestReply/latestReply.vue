@@ -7,9 +7,9 @@
     ></classHead>
     <div id="replyItem">
       <ul>
-        <li>
-          <replyLeft></replyLeft>
-          <replyRight></replyRight>
+        <li v-for="HotPostReply in HotPostReplyList" :key="HotPostReply.postReplyID">
+          <replyLeft :HotPostReply = HotPostReply></replyLeft>
+          <replyRight :HotPostReply = HotPostReply></replyRight>
         </li>
       </ul>
     </div>
@@ -17,16 +17,33 @@
 </template>
 
 <script>
+import axios from 'axios';
 import classHead from "../classHead";
 import replyLeft from "./replyLeft"
 import replyRight from "./replyRight"
 export default {
+  data() {
+    return {
+      HotPostReplyList: [],
+    };
+  },
   components: { classHead , replyLeft, replyRight},
+  mounted(){
+    axios.get('http://localhost:8080/user/PostReplySearch/selectHotPostReply').then(
+      (response) => {
+        this.HotPostReplyList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 };
 </script>
 
 <style scoped>
 #latestReply {
+  width: 30%;
   margin: 15px;
   border: 1px solid rgba(230, 230, 230, 1);
   border-radius: 5px;
@@ -42,5 +59,6 @@ ul {
 li {
   display: flex;
   justify-content: space-between;
+  padding-bottom: 10px;
 }
 </style>

@@ -5,19 +5,21 @@
         <router-link :to="{
           name:'User',
           params:{
-            userid:3
+            userid: HotPostReply.userID
           }
         }">
-          <i class="el-icon-user"></i> author
+          <i class="el-icon-user"></i> {{HotPostReply.userName}}
         </router-link>
       </div>
-      <div id="date"><i class="el-icon-time"></i> date</div>
+      <div id="date"><i class="el-icon-time"></i> {{HotPostReply.postReplyTime}}</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['HotPostReply']
+};
 </script>
 
 <style>

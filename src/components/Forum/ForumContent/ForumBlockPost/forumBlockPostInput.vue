@@ -1,5 +1,8 @@
 <template>
   <div id="forumBlockInput">
+    <div class="el-icon-s-promotion" style="display: flex; align-items: center;">
+      <p style="margin-left: 3px;">一起讨论吧！</p>
+    </div>
     <el-input
       type="textarea"
       placeholder="请输入内容"

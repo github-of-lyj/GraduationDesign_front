@@ -6,10 +6,10 @@
           :to="{
             name: 'User',
             params: {
-              userid: 3,
+              userid: hotPost.userID,
             }
           }">
-          <i class="el-icon-user"></i> author
+          <i class="el-icon-user"></i> {{hotPost.userName}}
         </router-link>
       </div>
       <div id="latestAnswer">
@@ -17,19 +17,37 @@
           :to="{
             name: 'User',
             params: {
-              userid: 3,
+              userid: LatestAnswer.userID,
             }
           }">
-          <i class="el-icon-news"></i> latestAnswer
+          <i class="el-icon-news"></i> {{LatestAnswer.userName}}
         </router-link>
       </div>
-      <div id="date"><i class="el-icon-time"></i> date</div>
+      <div id="date"><i class="el-icon-time"></i> {{hotPost.postDate}}</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import axios from 'axios'
+export default {
+  data() {
+    return {
+      LatestAnswer: {},
+    };
+  },
+  props:['hotPost'],
+  mounted(){
+    axios.get(`http://localhost:8080/user/postReply/getLatestPostReplyFromPost/${this.hotPost.postID}`).then(
+      (response) => {
+        this.LatestAnswer = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+};
 </script>
 
 <style>
