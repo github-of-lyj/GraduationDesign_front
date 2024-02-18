@@ -49,7 +49,7 @@ export default {
   props: ["initialInputWords"],
   methods: {
     querySearch(inputWords, callback) {
-      callback([{ value: "战士鸽" }, { value: "猎宝" }, { value: "鸡煲" }]);
+      callback([{ value: "资讯" }, { value: "论坛" }, { value: "资料" }]);
     },
     handleSelect() {},
     startSearch() {

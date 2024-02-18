@@ -1,19 +1,24 @@
 <template>
-  <div id="postSearch">
-    <div class="divider"></div>
-    <div>
-      <div  v-for="post in postSearchList" :key="post.postID">
-        <postResult :post = post></postResult>
+  <div>
+    <div v-if="!(postSearchList.length && postReplySearchList.length)" id="nullResult">
+      <p>查询结果为空  ≥﹏≤</p>
+    </div>
+    <div id="postSearch">
+      <div class="divider"></div>
+      <div>
+        <div  v-for="post in postSearchList" :key="post.postID">
+          <postResult :post = post></postResult>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div>
+        <div v-for="postReply in postReplySearchList" :key="postReply.postReplyID">
+          <replyResult :postReply = postReply></replyResult>
+        </div>
       </div>
     </div>
-    <div class="divider"></div>
-    <div>
-      <div v-for="postReply in postReplySearchList" :key="postReply.postReplyID">
-        <replyResult :postReply = postReply></replyResult>
-      </div>
-    </div>
-    
   </div>
+
 </template>
 
 <script>
@@ -32,7 +37,7 @@ export default {
     axios.get(`http://localhost:8080/user/PostSearch/getPost/${this.$route.params.searchname}`).then(
       (response) => {
         this.postSearchList = response.data
-      },
+      }, 
       (error) => {
         console.log(error)
       }
@@ -51,6 +56,11 @@ export default {
 </script>
 
 <style scoped>
+#nullResult{
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
 #postSearch {
   justify-content: center;
   display: flex;

@@ -17,11 +17,11 @@
           <table>
             <tbody>
               <th id="level">
-                <p>{{userData.userLevel}}</p>
+                <p>{{getLevel()}}</p>
                 <p>等级</p>
               </th>
               <th id="experience">
-                <p>{{userData.userExperience}}</p>
+                <p>{{getExperience()}}</p>
                 <p>经验</p>
               </th>
               <th>
@@ -53,10 +53,17 @@ export default {
   },
   props:['userName'],
   methods:{
+    getLevel() {
+      if (typeof this.userData.userExperience === "undefined") return 0;
+      return parseInt((this.userData.userExperience / 20)) + 1;
+    },
+    getExperience() {
+      if (typeof this.userData.userExperience === "undefined") return 0;
+      return (this.userData.userExperience % 20);
+    },
     getPercent() {
-      if (typeof this.userData.userExperience === "undefined") 
-        return 0;
-      return (this.userData.userExperience % 20) * 100;
+      if (typeof this.userData.userExperience === "undefined") return 0;
+      return (this.userData.userExperience % 20) * 5;
     },
   },
   mounted(){

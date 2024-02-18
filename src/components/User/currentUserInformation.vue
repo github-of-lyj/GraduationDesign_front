@@ -55,8 +55,8 @@
     </div>
     <div id="userData">
       <div>
-        <span id="level">用户等级:{{ userData.userLevel }}</span>
-        <span id="experience">用户经验:{{ userData.userExperience }}</span>
+        <span id="level">用户等级:{{ getLevel()}}</span>
+        <span id="experience">用户经验:{{ getExperience() }}</span>
         <el-progress
           :text-inside="true"
           :stroke-width="24"
@@ -100,9 +100,17 @@ export default {
     goBack() {
       this.$router.back();
     },
+    getLevel() {
+      if (typeof this.userData.userExperience === "undefined") return 0;
+      return parseInt((this.userData.userExperience / 20)) + 1;
+    },
+    getExperience() {
+      if (typeof this.userData.userExperience === "undefined") return 0;
+      return (this.userData.userExperience % 20);
+    },
     getPercent() {
       if (typeof this.userData.userExperience === "undefined") return 0;
-      return (this.userData.userExperience % 20) * 100;
+      return (this.userData.userExperience % 20) * 5;
     },
     //上传成功后返回相应的文件ID并存储
     handleAvatarSuccess(fileID, file) {

@@ -1,27 +1,55 @@
 <template>
-  <div style="display: flex;justify-content: center;">
-    <div id="userSearch">
-      <div id="user">
-        <img src="../../assets/orange.jpg" id="userIcon" />
-        <div id="userData">
-          <router-link class="el-icon-user" :to="{
-            name: 'User',
-            params: {
-              userid: 3
-            }
-          }">userName</router-link>
-          <span class="el-icon-star-off">level</span>
+  <div>
+    <div v-if="!(UserSearchList.length)" id="nullResult">
+      <p>查询结果为空  ≥﹏≤</p>
+    </div>
+    <div style="display: flex;justify-content: center;">
+      <div id="userSearch">
+        <div id="user" v-for="user in UserSearchList" :key="user.userID">
+          <img :src="`http://localhost:8080/user/file/getUserAvatar/${user.userAvatar}`" id="userIcon" />
+          <div id="userData">
+            <router-link class="el-icon-user" :to="{
+              name: 'User',
+              params: {
+                userid: user.userID
+              }
+            }">{{user.userName}}</router-link>
+            <span class="el-icon-star-off">等级：{{user.userLevel}}</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
-export default {};
+import axios from 'axios';
+export default {
+  data() {
+    return {
+      UserSearchList: {},
+    };
+  },
+  mounted(){
+    axios.get(`http://localhost:8080/user/UserSearch/getUser/${this.$route.params.searchname}`).then(
+      (response) => {
+        this.UserSearchList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+};
 </script>
 
 <style scoped>
+#nullResult{
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
 #userSearch {
   margin: 15px;
   display: flex;
@@ -39,11 +67,15 @@ export default {};
   border-radius: 6px;
 }
 #userData {
+  margin-top:5px;
   display: grid;
-  text-align: center;
+  justify-content: center;
 }
 
 span {
   padding: 1px;
+}
+a{
+  margin-bottom: 5px;
 }
 </style>
