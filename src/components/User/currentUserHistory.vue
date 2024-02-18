@@ -4,28 +4,35 @@
       <el-tab-pane>
         <span slot="label" class="fontClass">我的帖子</span>
         <div>
-            <currentUserPostItem></currentUserPostItem>
+          <div v-for="PostSearch in  PostSearchList.slice(curPage*pageSize, curPage*pageSize + pageSize)" :key="PostSearch.postID">
+            <currentUserPostItem :PostSearch = PostSearch></currentUserPostItem>
+          </div>
         </div>
+        <el-pagination
+          small
+          layout="prev, pager, next , jumper"
+          :total="PostSearchList.length"
+          :page-size="pageSize"
+          @current-change="pageChange"
+        >
+        </el-pagination>
       </el-tab-pane>
       <el-tab-pane>
         <span slot="label" class="fontClass">我的发言</span>
         <div>
-            <currentUserReplyItem></currentUserReplyItem>
+          <div v-for="PostReplySearch in PostReplySearchList.slice(curPage*pageSize, curPage*pageSize + pageSize)" :key="PostReplySearch.postReplyID">
+            <currentUserReplyItem :PostReplySearch = PostReplySearch></currentUserReplyItem>
+          </div>
         </div>
+        <el-pagination
+          small
+          layout="prev, pager, next , jumper"
+          :total="PostReplySearchList.length"
+          :page-size="pageSize"
+          @current-change="pageChange"
+        >
+        </el-pagination>
       </el-tab-pane>
-      <el-tab-pane>
-        <span slot="label" class="fontClass">我对其他用户的回复</span>
-        <div>
-            <currentUserReplyItem></currentUserReplyItem>
-        </div>
-      </el-tab-pane>
-      <el-pagination
-        small
-        layout="prev, pager, next , jumper"
-        :total="length"
-        :page-size="pageSize"
-      >
-      </el-pagination>
     </el-tabs>
   </div>
 </template>
@@ -33,15 +40,43 @@
 <script>
 import currentUserPostItem from "./currentUserHistory/currentUserPostItem"
 import currentUserReplyItem from './currentUserHistory/currentUserReplyItem';
+import axios from "axios"
 export default {
   data() {
     return {
-      pageSize: 5,
+      PostSearchList:[],
+      PostReplySearchList:[],
+      pageSize: 3,
       curPage: 0,
       length,
     };
   },
-  components:{currentUserPostItem,currentUserReplyItem}
+  methods:{
+    pageChange(page){
+      console.log("@")
+      this.curPage = page - 1
+    }
+  },
+  components:{currentUserPostItem,currentUserReplyItem},
+  mounted(){
+    var userData = JSON.parse(localStorage.getItem("user"));
+    axios.get(`http://localhost:8080/user/PostSearch/selectUserPost/${userData.userID}`).then(
+      (response) => {
+        this.PostSearchList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    axios.get(`http://localhost:8080/user/PostReplySearch/selectPostReply/${userData.userID}`).then(
+      (response) => {
+        this.PostReplySearchList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 };
 </script>
 

@@ -8,20 +8,23 @@
           :to="{
             name: 'ForumBlockPost',
             params: {
-              postid: 3,
+              postid: searchPost.postID,
             },
           }"
-          >postName</router-link
+          >{{searchPost.postTitle}}</router-link
         >
-        <p id="postContent">postContentpostContentpostContentpostContent</p>
+        <p id="postContent">{{searchPost.postReplyContent}}</p>
+
       </div>
-      <p id="time">date</p>
+      <p id="time">{{searchPost.postDate}}</p>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['searchPost']
+};
 </script>
 
 <style scoped>
@@ -36,15 +39,16 @@ export default {};
 }
 #time {
   float: right;
-  font-size: 18px;
+  font-size: 15px;
 }
 #nameRouter {
   text-decoration: none;
   color: black;
   font-size: 17px;
-  width: 150px;
+  width: 200px;
 }
 #postContent {
+  font-size: 15px;
   margin-left: 10px;
   width: 500px;
   overflow-wrap: break-word;

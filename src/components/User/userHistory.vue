@@ -4,22 +4,37 @@
       <el-tab-pane>
         <span slot="label" class="fontClass">该用户的帖子</span>
         <div>
-            <userPostItem></userPostItem>
+          <div v-for="searchPost in searchPostList.slice(curPage*pageSize, curPage*pageSize + pageSize)" 
+          :key="searchPost.postID">
+            <userPostItem :searchPost = searchPost></userPostItem> 
+          </div>
         </div>
+        <el-pagination
+          small
+          layout="prev, pager, next , jumper"
+          :total="searchPostList.length"
+          :page-size="pageSize"
+          @current-change="pageChange"
+        >
+        </el-pagination>
       </el-tab-pane>
       <el-tab-pane>
         <span slot="label" class="fontClass">该用户的回复</span>
         <div>
-            <userReplyItem></userReplyItem>
+          <div v-for="searchPostReply in searchPostReplyList.slice(curPage*pageSize, curPage*pageSize + pageSize)"
+          :key="searchPostReply.postReplyID">
+            <userReplyItem :searchPostReply = searchPostReply></userReplyItem>
+          </div>
         </div>
+        <el-pagination
+          small
+          layout="prev, pager, next , jumper"
+          :total="searchPostReplyList.length"
+          :page-size="pageSize"
+          @current-change="pageChange"
+        >
+        </el-pagination>
       </el-tab-pane>
-      <el-pagination
-        small
-        layout="prev, pager, next , jumper"
-        :total="length"
-        :page-size="pageSize"
-      >
-      </el-pagination>
     </el-tabs>
   </div>
 </template>
@@ -27,15 +42,41 @@
 <script>
 import userPostItem from './UserHistory/userPostItem'
 import userReplyItem from './UserHistory/userReplyItem'
+import axios from 'axios'
 export default {
   data() {
     return {
-      pageSize: 5,
+      searchPostList:[],
+      searchPostReplyList:[],
+      pageSize: 3,
       curPage: 0,
-      length,
     };
   },
-  components:{userPostItem,userReplyItem}
+  components:{userPostItem,userReplyItem},
+  methods:{
+    pageChange(page){
+      console.log("@")
+      this.curPage = page - 1
+    }
+  },
+  mounted(){
+    axios.get(`http://localhost:8080/user/PostSearch/selectUserPost/${this.$route.params.userid}`).then(
+      (response) => {
+        this.searchPostList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+    axios.get(`http://localhost:8080/user/PostReplySearch/selectPostReply/${this.$route.params.userid}`).then(
+      (response) => {
+        this.searchPostReplyList = response.data
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 };
 </script>
 

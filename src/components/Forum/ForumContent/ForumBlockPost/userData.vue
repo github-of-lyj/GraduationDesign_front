@@ -3,15 +3,15 @@
     <ul>
       <li>
         <div id="userName">
-          <router-link class="el-icon-user" :to="{
+          <router-link v-if="userData.userID" class="el-icon-user" :to="{
             name: 'User',
             params:{
-              userid:3
+              userid: userData.userID
             }
           }">{{userData.userName}}</router-link>
         </div>
       </li>
-      <li><img v-if="this.userData.userAvatar" :src="`http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`" id="userIcon" /></li>
+      <li><img v-if="userData.userAvatar" :src="`http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`" id="userIcon" /></li>
       <li>
         <div id="userInformation">
           <table>
