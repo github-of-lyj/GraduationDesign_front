@@ -49,11 +49,17 @@ export default {
             } else {
               this.publishData.userID = userData.userID;
               this.publishData.postID = this.$route.params.postid;
-              axios.post("http://localhost:8080/user/postReply/insertNewPostReply",this.publishData)
-                .then(
-                  () => {
-                    pubsub.publish('updatePostReply')
-                    pubsub.publish('updateReplyNumber')
+              axios.post("http://localhost:8080/user/postReply/insertNewPostReply",this.publishData).then(
+                  (response) => {
+                    if(response.data.description){
+                      this.$message({
+                        message: response.data.description,
+                        type: 'error'
+                      })
+                    }else{
+                      pubsub.publish('updatePostReply')
+                      pubsub.publish('updateReplyNumber')
+                    }
                   },
                   (error) => {
                     console.log(error);

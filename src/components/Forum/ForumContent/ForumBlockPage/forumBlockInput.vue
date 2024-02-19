@@ -57,21 +57,34 @@ export default {
               this.publishData.blockID = this.$route.params.blockid
               axios.post('http://localhost:8080/user/post/insertNewPost',this.publishData).then(
                 (response) => {
-                  this.publishData.postID = response.data
-                  axios.post('http://localhost:8080/user/postReply/insertNewPostReply',this.publishData).then(
-                    () => {
-                      console.log(this.publishData.postID)
-                      this.$router.push({
-                        name: 'ForumBlockPost',
-                        params:{
-                          postid:this.publishData.postID
+                  if(response.data.description){
+                    this.$message({
+                    message: response.data.description,
+                    type: 'error'
+                    })
+                  }else{
+                    this.publishData.postID = response.data
+                    axios.post('http://localhost:8080/user/postReply/insertNewPostReply',this.publishData).then(
+                      (response) => {
+                        if(response.data.description){
+                          this.$message({
+                          message: response.data.description,
+                          type: 'error'
+                          })
+                        }else{
+                          this.$router.push({
+                            name: 'ForumBlockPost',
+                            params:{
+                              postid:this.publishData.postID
+                            }
+                          })
                         }
-                      })
-                    },
-                    (error) => {
-                      console.log(error)
-                    }
-                  )
+                      },
+                      (error) => {
+                        console.log(error)
+                      }
+                    )
+                  }
                 },
                 (error) => {
                   console.log(error)

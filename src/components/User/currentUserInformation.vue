@@ -39,9 +39,11 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
-            <el-form-item label="用户姓名" :label-width="formLabelWidth">
-              <el-input v-model="form.userName" autocomplete="off"></el-input>
+            <el-form-item label="用户姓名" :label-width="formLabelWidth"> 
+              <el-input v-model="form.userName" autocomplete="off" @blur="checkuserName"></el-input>
+              <p id="tipInfo" ref="userNameInfo">用户名存在特殊符号或长度不在5-10位之间</p>
             </el-form-item>
+
             <el-form-item label="用户简介" :label-width="formLabelWidth">
               <el-input v-model="form.userDescription" autocomplete="off" type="textarea" resize="none" rows="4"></el-input>
             </el-form-item>
@@ -87,6 +89,7 @@ export default {
       newUserData: {},
       dialogFormVisible: false,
       isEdit: false,
+      nameErr: false,
       form: {
         userName: "",
         userDescription: "",
@@ -97,6 +100,18 @@ export default {
     };
   },
   methods: {
+    checkuserName() {
+      var regular_userName = /^[\u4e00-\u9fa5\w]{5,10}$/
+      var flag = regular_userName.test(this.form.userName)
+      var userNameInfo = this.$refs.userNameInfo;
+      if ((this.form.userName == "") | flag) {
+        userNameInfo.style.display = "none";
+        this.nameErr = false
+      } else {
+        userNameInfo.style.display = "inline-block"
+        this.nameErr = true
+      }
+    },
     goBack() {
       this.$router.back();
     },
@@ -131,9 +146,24 @@ export default {
     },
     changeStart(){
       if(this.isEdit){
+        if(this.form.userName === '' || this.form.userDescription === '' || this.form.imageUrl === ''){
+          this.$message({
+            message: "不可为空",
+            type: "warning"
+          })
+          return 
+        }
+        if(this.nameErr === true){
+            this.$message({
+              message: "请按照相应规则填写",
+              type: "warning"
+            })
+            return 
+        }
         if(this.form.userName != this.userData.userName){
           axios.post(`http://localhost:8080/user/updateUserName/${this.form.userName}/${this.userData.userID}`).then(
             (response) => {
+              console.log(response)
               if(response.data.description){
                 this.$message({
                 message: response.data.description,
@@ -151,16 +181,24 @@ export default {
         }
         if(this.form.userDescription != this.userData.userDescription){
           axios.post(`http://localhost:8080/user/updateUserDescription/${this.form.userDescription}/${this.userData.userID}`).then(
-            () => {
-              this.userData.userDescription = this.form.userDescription
-              pubsub.publish('changeItem',this.userData)
+            (response) => {
+              console.log(response)
+              if(response.data.description){
+                this.$message({
+                message: response.data.description,
+                type: 'error'
+                })
+              }else{
+                this.userData.userDescription = this.form.userDescription
+                pubsub.publish('changeItem',this.userData)
+              }
             },
             (error) => {
               console.log(error)
             }
           )
         }
-        if(this.form.imageUrl != ""){
+        if(this.form.imageUrl != `http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`){
           axios.post(`http://localhost:8080/user/updateUserAvatar/${this.userData.userID}/${this.form.fileID}`).then(
             () => {
               this.userData.userAvatar = this.form.fileID
@@ -173,7 +211,9 @@ export default {
         }    
       }
       else{
-        console.log('不修改')
+        this.form.userName = this.userData.userName
+        this.form.userDescription = this.userData.userDescription
+        this.form.imageUrl = `http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`
       }
       
     }
@@ -214,6 +254,13 @@ export default {
 }
 #level {
   margin-right: 15px;
+}
+#tipInfo {
+  display: none;
+  float: left;
+  color: red;
+  height: 20px;
+  margin: 0;
 }
 .el-progress {
   margin-top: 10px;
