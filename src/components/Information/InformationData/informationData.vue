@@ -1,9 +1,13 @@
 <template>
   <div>
+    <div v-if="!UploadFileList.length" id="NoResultHandle">
+      <p>似乎没有符合条件的结果呢 (°ー°〃)</p>
+    </div>
     <div id="upload">
       <el-upload
+        v-if="userData.userID"
         class="upload-demo"
-        action="http://localhost:8080/user/uploadfile/upload?userID=1"
+        :action="`http://localhost:8080/user/uploadfile/upload?userID=${userData.userID}`"
         :before-upload="beforeFileUpload"
         :on-success="onFileUploadSuccess"
       >
@@ -13,7 +17,7 @@
         </div>
       </el-upload>
     </div>
-    <div id="informationData">
+    <div id="informationData" v-if="UploadFileList.length">
       <div>
         <tr>
           <th id="name">名称</th>
@@ -30,24 +34,34 @@
           </th>
         </tr>
         <tbody>
-          <tr class="default" v-for="UploadFile in UploadFileList" :key="UploadFile.uploadfileID">
-            <td id="name">{{getFileName(UploadFile.uploadfileName)}}.zip</td>
-            <td id="size">{{UploadFile.uploadfileSize}}KB</td>
+          <tr
+            class="default"
+            v-for="uploadFile in UploadFileList"
+            :key="uploadFile.uploadfileID"
+          >
+            <td id="name">{{ getFileName(uploadFile.uploadfileName) }}.zip</td>
+            <td id="size">{{ uploadFile.uploadfileSize }}KB</td>
             <th id="name">
               <router-link
                 :to="{
                   name: 'User',
                   params: {
-                    userid: UploadFile.userID,
-                },
-              }"
+                    userid: uploadFile.userID,
+                  },
+                }"
               >
-                {{UploadFile.userName}}
+                {{ uploadFile.userName }}
               </router-link>
             </th>
-            <td id="date">{{UploadFile.uploadDate}}</td>
-            <td id="link"><span class="el-icon-download" style="cursor: pointer;color:red;" @click="download"></span></td>
-            <td id="download">{{UploadFile.downloadCounts}}</td>
+            <td id="date">{{ uploadFile.uploadDate }}</td>
+            <td id="link">
+              <span
+                class="el-icon-download"
+                style="cursor: pointer; color: red"
+                @click="download(uploadFile)"
+              ></span>
+            </td>
+            <td id="download">{{ uploadFile.downloadCounts }}</td>
           </tr>
         </tbody>
       </div>
@@ -56,80 +70,188 @@
 </template>
 
 <script>
-import axios from 'axios'
-import pubsub from 'pubsub-js'
+import axios from "axios";
+import pubsub from "pubsub-js";
 export default {
   data() {
     return {
-      UploadFileList:[]
+      UploadFileList: [],
+      userData:{}
     };
   },
   methods: {
     sortBySize() {
-      this.UploadFileList.sort((a,b)=>{
-        return parseInt(b.uploadfileSize) - parseInt(a.uploadfileSize)
-      })
+      this.UploadFileList.sort((a, b) => {
+        return parseInt(b.uploadfileSize) - parseInt(a.uploadfileSize);
+      });
       this.$message({
-        message: '按照文件大小从大到小排列',
-        type: 'info'
-      })
+        message: "按照文件大小从大到小排列",
+        type: "info",
+      });
     },
     sortByDate() {
-      this.UploadFileList.sort((a,b)=>{
+      this.UploadFileList.sort((a, b) => {
         const dateA = new Date(a.uploadDate);
         const dateB = new Date(b.uploadDate);
-        return dateB - dateA
-      })
+        return dateB - dateA;
+      });
       this.$message({
-        message: '按照日期从晚到早排列',
-        type: 'info'
-      })
+        message: "按照日期从晚到早排列",
+        type: "info",
+      });
     },
     sortByDownload() {
-      this.UploadFileList.sort((a,b)=>{
-        return b.downloadCounts - a.downloadCounts
-      })
+      this.UploadFileList.sort((a, b) => {
+        return b.downloadCounts - a.downloadCounts;
+      });
       this.$message({
-        message: '按照下载量从高到低排序',
-        type: 'info'
-      })
+        message: "按照下载量从高到低排序",
+        type: "info",
+      });
     },
-    getFileName(fileName){
-      const separatorIndex = fileName.indexOf("-")
-      return fileName.substring(0, separatorIndex)
+    getFileName(fileName) {
+      const separatorIndex = fileName.indexOf("-");
+      return fileName.substring(0, separatorIndex);
     },
     beforeFileUpload(file) {
-      const isZip = file.type === "application/x-zip-compressed";
-
-      if (!isZip) {
-        this.$message.error("上传文件只能是zip格式!");
+      var userData = JSON.parse(localStorage.getItem("user"));
+      if (userData != null) {
+        axios.post("http://localhost:8080/user/checkLogin", userData).then(
+          (response) => {
+            if (response.data.description) {
+              this.$message({
+                message: response.data.description,
+                type: "warning",
+              });
+              localStorage.removeItem("user");
+              this.isLogin = false;
+              this.userData = {};
+              return false
+            } else {
+              const isZip = file.type === "application/x-zip-compressed";
+              if (!isZip) {
+                this.$message.error("上传文件只能是zip格式!");
+              }
+              return isZip;
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.$message({
+          message: "用户未登录",
+          type: "info",
+        });
+        return false
       }
-      return isZip
     },
-    onFileUploadSuccess(){
-      pubsub.publish('getUploadFile')
+    onFileUploadSuccess() {
+      pubsub.publish("getUploadFile");
     },
-    download(){
-      console.log('开始下载')
-    }
+    download(uploadFile) {
+      var userData = JSON.parse(localStorage.getItem("user"));
+      if (userData != null) {
+        axios.post("http://localhost:8080/user/checkLogin", userData).then(
+          (response) => {
+            if (response.data.description) {
+              this.$message({
+                message: response.data.description,
+                type: "warning",
+              });
+              localStorage.removeItem("user");
+              this.isLogin = false;
+              this.userData = {};
+              //无论该用户进行了什么操作，都默认回到首页，
+              this.$router.push("/");
+            } else {
+              axios.post("http://localhost:8080/user/uploadfile/getFile",uploadFile,
+                  {
+                    responseType: "blob",
+                  }
+                )
+                .then((response) => {
+                  // 创建一个Blob对象
+                  const blob = new Blob([response.data], {
+                    type: response.headers["content-type"],
+                  });
+                  // 创建一个URL对象
+                  const url = window.URL.createObjectURL(blob);
+                  // 创建一个<a>标签
+                  const link = document.createElement("a");
+                  link.href = url;
+                  // 设置下载文件的文件名
+                  link.setAttribute(
+                    "download",
+                    this.getFileName(uploadFile.uploadfileName) + ".zip"
+                  );
+                  // 触发点击事件进行下载
+                  document.body.appendChild(link);
+                  link.click();
+                  // 清理URL对象
+                  window.URL.revokeObjectURL(url);
+                  uploadFile.downloadCounts = uploadFile.downloadCounts + 1;
+                })
+                .catch((error) => {
+                  console.error("Error downloading file:", error);
+                });
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        this.$message({
+          message: "用户未登录",
+          type: "info",
+        });
+      }
+    },
   },
-  mounted(){
-    pubsub.subscribe('getUploadFile',() => {
-      axios.get('http://localhost:8080/user/uploadfile/selectAllUploadFile').then(
-        (response) => {
-          this.UploadFileList = response.data
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+  mounted() {
+    pubsub.subscribe("getUploadFile", () => {
+      axios
+        .get("http://localhost:8080/user/uploadfile/selectAllUploadFile")
+        .then(
+          (response) => {
+            this.UploadFileList = response.data;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    });
+    pubsub.subscribe("getSearchData",(MsgName,SearchField) => {
+        console.log(SearchField)
+        axios.get(`http://localhost:8080/user/UploadFileSearch/selectVagueUploadFile/${SearchField}`).then(
+          (response) => {
+            this.UploadFileList = response.data
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
     })
-    pubsub.publish('getUploadFile')
-  }
+    pubsub.publish("getUploadFile");
+    var userData = JSON.parse(localStorage.getItem("user"));
+    if(userData != null)
+      this.userData = userData
+  },
 };
 </script>
 
 <style scoped>
+#NoResultHandle{
+  margin-left: 200px;
+  margin-right: 200px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px black dotted;
+  border-radius: 10px;
+}
 .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;
@@ -199,4 +321,5 @@ td {
 i:hover {
   cursor: pointer;
 }
+
 </style>

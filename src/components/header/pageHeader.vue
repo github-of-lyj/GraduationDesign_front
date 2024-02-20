@@ -137,7 +137,6 @@ export default {
       localStorage.setItem("user", JSON.stringify(userData));
     });
     //组件重新渲染时查看当前用户的登录状态
-    console.log("组件重新渲染了");
     var userData = JSON.parse(localStorage.getItem("user"));
     if (userData != null) {
       axios.post("http://localhost:8080/user/checkLogin", userData).then(
