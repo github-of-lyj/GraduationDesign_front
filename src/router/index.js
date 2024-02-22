@@ -13,6 +13,11 @@ import searchPostContent from "../pages/search/searchPostContent"
 import informationContent from "../pages/information/informationContent"
 import loginContent from "../pages/login/loginContent"
 import administrateContent from "../pages/administrate/administrateContent"
+import administrateUser from "../pages/administrate/administrateContent/administrateUser"
+import administratePost from "../pages/administrate/administrateContent/administratePost"
+import administratePostReply from "../pages/administrate/administrateContent/administratePostReply"
+import administrateUserReply from "../pages/administrate/administrateContent/administrateUserReply"
+import administrateReport from "../pages/administrate/administrateContent/administrateReport"
 export default new VueRouter({
     routes:[
         {
@@ -89,7 +94,34 @@ export default new VueRouter({
         {
             name: 'Administrate',
             path: '/administrate',
-            component: administrateContent
+            component: administrateContent,
+            children:[
+                {
+                    name: 'AdministrateUser',
+                    path: 'user',
+                    component: administrateUser
+                },
+                {
+                    name: 'AdministratePost',
+                    path: 'post',
+                    component: administratePost
+                },
+                {
+                    name: 'AdministratePostReply',
+                    path: 'postReply',
+                    component: administratePostReply
+                },
+                {
+                    name: 'AdministrateUserReply',
+                    path: 'userReply',
+                    component: administrateUserReply
+                },
+                {
+                    name: 'AdministrateReport',
+                    path: 'report',
+                    component: administrateReport
+                }
+            ]
         }
     ]
 

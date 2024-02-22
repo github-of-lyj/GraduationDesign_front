@@ -1,8 +1,9 @@
 <template>
   <div>
     <administrateBox></administrateBox>
-    <div>
+    <div id="administrateContent">
         <administrateSide></administrateSide>
+        <router-view></router-view>
     </div>
   </div>
 </template>
@@ -16,6 +17,9 @@ export default {
 </script>
 
 <style>
+#administrateContent{
+  display: flex;
+}
 
 
 </style>
