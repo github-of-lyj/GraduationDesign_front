@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       UploadFileList: [],
-      userData:{}
+      userData: {},
     };
   },
   methods: {
@@ -112,40 +112,17 @@ export default {
     getFileName(fileName) {
       const separatorIndex = fileName.indexOf("-");
       return fileName.substring(0, separatorIndex);
-    },
+    }, 
     beforeFileUpload(file) {
-      var userData = JSON.parse(localStorage.getItem("user"));
-      if (userData != null) {
-        axios.post("http://localhost:8080/user/checkLogin", userData).then(
-          (response) => {
-            if (response.data.description) {
-              this.$message({
-                message: response.data.description,
-                type: "warning",
-              });
-              localStorage.removeItem("user");
-              this.isLogin = false;
-              this.userData = {};
-              return false
-            } else {
-              const isZip = file.type === "application/x-zip-compressed";
-              if (!isZip) {
-                this.$message.error("上传文件只能是zip格式!");
-              }
-              return isZip;
-            }
-          },
-          (error) => {
-            console.log(error);
-          }
-        );
-      } else {
-        this.$message({
-          message: "用户未登录",
-          type: "info",
-        });
-        return false
-      }
+        const isJPG = file.type === 'application/x-zip-compressed';
+        const isLt2M = file.size / 1024 / 1024 < 400;
+        if (!isJPG) {
+          this.$message.error('上传文件只能是 zip 格式!');
+        }
+        if (!isLt2M) {
+          this.$message.error('上传头像图片大小不能超过 400MB!');
+        }
+        return isJPG && isLt2M;
     },
     onFileUploadSuccess() {
       pubsub.publish("getUploadFile");
@@ -166,7 +143,10 @@ export default {
               //无论该用户进行了什么操作，都默认回到首页，
               this.$router.push("/");
             } else {
-              axios.post("http://localhost:8080/user/uploadfile/getFile",uploadFile,
+              axios
+                .post(
+                  "http://localhost:8080/user/uploadfile/getFile",
+                  uploadFile,
                   {
                     responseType: "blob",
                   }
@@ -223,27 +203,29 @@ export default {
           }
         );
     });
-    pubsub.subscribe("getSearchData",(MsgName,SearchField) => {
-        console.log(SearchField)
-        axios.get(`http://localhost:8080/user/UploadFileSearch/selectVagueUploadFile/${SearchField}`).then(
+    pubsub.subscribe("getSearchData", (MsgName, SearchField) => {
+      axios
+        .get(
+          `http://localhost:8080/user/UploadFileSearch/selectVagueUploadFile/${SearchField}`
+        )
+        .then(
           (response) => {
-            this.UploadFileList = response.data
+            this.UploadFileList = response.data;
           },
           (error) => {
-            console.log(error)
+            console.log(error);
           }
-        )
-    })
+        );
+    });
     pubsub.publish("getUploadFile");
     var userData = JSON.parse(localStorage.getItem("user"));
-    if(userData != null)
-      this.userData = userData
+    if (userData != null) this.userData = userData;
   },
 };
 </script>
 
 <style scoped>
-#NoResultHandle{
+#NoResultHandle {
   margin-left: 200px;
   margin-right: 200px;
   text-align: center;
@@ -321,5 +303,4 @@ td {
 i:hover {
   cursor: pointer;
 }
-
 </style>

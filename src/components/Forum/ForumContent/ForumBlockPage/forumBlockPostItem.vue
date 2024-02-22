@@ -33,7 +33,6 @@ export default {
   },
   methods:{
     pageChange(page){
-      console.log("@")
       this.curPage = page - 1
     }
   },
@@ -82,6 +81,7 @@ export default {
   text-align: center;
 }
 ul {
+  width: 1000px;
   list-style: none;
   padding: 0;
   margin: 0;

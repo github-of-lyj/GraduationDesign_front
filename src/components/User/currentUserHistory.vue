@@ -53,7 +53,6 @@ export default {
   },
   methods:{
     pageChange(page){
-      console.log("@")
       this.curPage = page - 1
     }
   },

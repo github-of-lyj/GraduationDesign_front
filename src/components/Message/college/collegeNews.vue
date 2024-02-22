@@ -19,11 +19,6 @@
         </div>
         <collegeNewsList :errMsg="errMsg"></collegeNewsList>
       </div>
-      <div id="contentList">
-        <postList></postList>
-        <el-divider direction="vertical"></el-divider>
-        <postList></postList>
-      </div>
     </div>
   </div>
 </template>
@@ -32,7 +27,6 @@
 import pubsub from "pubsub-js";
 import axios from "axios";
 import collegeNewsList from "./collegeNewsList.vue";
-import postList from "../post/postList.vue";
 export default {
   data() {
     return {
@@ -42,7 +36,7 @@ export default {
       inputWords: ""
     };
   },
-  components: { collegeNewsList, postList },
+  components: { collegeNewsList },
   methods:{
     startEdit(){
       this.isEdit = true

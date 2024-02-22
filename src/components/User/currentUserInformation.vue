@@ -163,7 +163,6 @@ export default {
         if(this.form.userName != this.userData.userName){
           axios.post(`http://localhost:8080/user/updateUserName/${this.form.userName}/${this.userData.userID}`).then(
             (response) => {
-              console.log(response)
               if(response.data.description){
                 this.$message({
                 message: response.data.description,
@@ -182,7 +181,6 @@ export default {
         if(this.form.userDescription != this.userData.userDescription){
           axios.post(`http://localhost:8080/user/updateUserDescription/${this.form.userDescription}/${this.userData.userID}`).then(
             (response) => {
-              console.log(response)
               if(response.data.description){
                 this.$message({
                 message: response.data.description,

@@ -102,6 +102,7 @@ export default {
               type: 'error'
             })
           }else{
+            console.log(response.data.data)
             pubsub.publish('userData',response.data.data)
             this.$router.push({
               name: 'Index'

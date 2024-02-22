@@ -12,6 +12,7 @@ import searchUserContent from "../pages/search/searchUserContent"
 import searchPostContent from "../pages/search/searchPostContent"
 import informationContent from "../pages/information/informationContent"
 import loginContent from "../pages/login/loginContent"
+import administrateContent from "../pages/administrate/administrateContent"
 export default new VueRouter({
     routes:[
         {
@@ -84,6 +85,11 @@ export default new VueRouter({
             name: 'Login',
             path: '/login',
             component: loginContent
+        },
+        {
+            name: 'Administrate',
+            path: '/administrate',
+            component: administrateContent
         }
     ]
 

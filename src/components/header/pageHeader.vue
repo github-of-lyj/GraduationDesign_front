@@ -10,6 +10,7 @@
         <el-menu-item index="/message">资讯</el-menu-item>
         <el-menu-item index="/forum/index">论坛</el-menu-item>
         <el-menu-item index="/information">资料</el-menu-item>
+        <el-menu-item index="/administrate">管理</el-menu-item>
       </el-menu>
     </div>
     <div id="user">
@@ -161,10 +162,11 @@ export default {
         }
       );
     }
-    console.log(this._data)
   },
   beforeDestroy(){
     pubsub.unsubscribe("userData")
+    pubsub.unsubscribe("changeItem")
+    
   }
 };
 </script>

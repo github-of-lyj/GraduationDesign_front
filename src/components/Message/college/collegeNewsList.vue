@@ -42,7 +42,6 @@ export default {
   props:['errMsg'],
   methods:{
     pageChange(page){
-      console.log("@")
       this.curPage = page - 1
     }
   },
@@ -64,7 +63,7 @@ export default {
   width: 100%;
 }
 .el-tabs {
-  width: 90%;
+  width: 700px;
   height: 100%;
   margin-left: 10px;
   margin-right: 10px;
