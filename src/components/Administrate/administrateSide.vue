@@ -4,6 +4,7 @@
       <el-menu
         class="el-menu-vertical-demo"
         :router="true"
+        default-active="1"
       >
         <el-menu-item index="1"
         :route="{
@@ -59,11 +60,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #administrateSide {
   width: 200px;
   margin-top: 60px;
-  margin-bottom: 15px;
+  margin-bottom: 40px;
   display: flex;
 }
 </style>

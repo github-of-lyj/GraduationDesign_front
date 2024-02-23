@@ -10,7 +10,7 @@
         <el-menu-item index="/message">资讯</el-menu-item>
         <el-menu-item index="/forum/index">论坛</el-menu-item>
         <el-menu-item index="/information">资料</el-menu-item>
-        <el-menu-item index="/administrate">管理</el-menu-item>
+        <el-menu-item index="/administrate/user">管理</el-menu-item>
       </el-menu>
     </div>
     <div id="user">
@@ -56,8 +56,11 @@ export default {
       handler() {
         var pos = this.$route.path.slice(1).indexOf("/") + 1;
         var str = this.$route.path.slice(0, pos);
+        console.log(str)
         if (str === "/forum" || str === "/information")
           this.curPath = str + "/index";
+        else if (str === "/administrate")
+          this.curPath = str + "/user";
         else {
           if (str != "") this.curPath = str;
           else this.curPath = this.$route.path;

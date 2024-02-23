@@ -1,11 +1,13 @@
 <template>
   <div>
-    这里是AdministrateUserReply
+    <manageUserReply></manageUserReply>
   </div>
 </template>
 
 <script>
+import manageUserReply from '../../../components/Administrate/administrateContent/manageUserReply'
 export default {
+  components:{manageUserReply}
 
 }
 </script>
