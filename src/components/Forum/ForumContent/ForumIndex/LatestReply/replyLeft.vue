@@ -6,7 +6,7 @@
           <router-link :to="{
               name: 'ForumBlockPost',
               params: {
-                postid: 2,
+                postid: HotPostReply.postID,
               },
             }"
             >{{HotPostReply.postTitle}}</router-link 

@@ -16,34 +16,32 @@
 </template>
 
 <script>
+import axios from 'axios'
+import pubsub from 'pubsub-js'
 export default {
 data() {
     return {
-      tableData: [
-        {
-          postReplyID: "1",
-          postReplyContent: "postReplyContent",
-          postTitle: "postTitle",
-          userName: "userName",
-          postReplyTime: "postReplyTime"
-        },
-        {
-          postReplyID: "2",
-          postReplyContent: "postReplyContent",
-          postTitle: "postTitle",
-          userName: "userName",
-          postReplyTime: "postReplyTime"
-        },
-        {
-          postReplyID: "3",
-          postReplyContent: "postReplyContent",
-          postTitle: "postTitle",
-          userName: "userName",
-          postReplyTime: "postReplyTime"
-        },
-      ],
+      tableData: [],
     };
 },
+mounted(){
+  pubsub.subscribe('getPostReplyByIF',(msgName,searchField) => {
+    if(searchField === ''){
+      axios.get('http://localhost:8080/user/PostReplyManage/selectPostReply/all').then(
+        (response) => {
+          this.tableData = response.data
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
+  })
+  pubsub.publish('getPostReplyByIF','')
+},
+beforeDestroy(){
+  pubsub.unsubscribe('getPostReplyByIF')
+}
 }
 </script>
 

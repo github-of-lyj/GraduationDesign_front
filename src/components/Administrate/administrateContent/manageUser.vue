@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import pubsub from 'pubsub-js'
 export default {
   methods: {
     getAuthority(userData) {
@@ -38,28 +40,28 @@ export default {
   },
   data() {
     return {
-      tableData: [
-        {
-          userID: "1",
-          userName: "userName",
-          userAccount: "userAccount",
-          authority: "12",
-        },
-        {
-          userID: "2",
-          userName: "userName",
-          userAccount: "userAccount",
-          authority: "13",
-        },
-        {
-          userID: "3",
-          userName: "userName",
-          userAccount: "userAccount",
-          authority: "23",
-        },
-      ],
+      tableData: [],
     };
   },
+  mounted(){
+    pubsub.subscribe('getUserByIF',(msgName,searchField) => {
+      if(searchField === ''){
+        axios.get('http://localhost:8080/user/UserManage/selectUser/all').then(
+          (response) => {
+            this.tableData = response.data
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      }
+    })
+    pubsub.publish('getUserByIF','')
+
+  },
+  beforeDestroy(){
+    pubsub.unsubscribe('getUserByIF')
+  }
 };
 </script>
 

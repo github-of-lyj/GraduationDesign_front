@@ -5,7 +5,7 @@
       <el-table-column prop="userReplyContent" label="用户回复内容" width="250"></el-table-column>
       <el-table-column prop="postReplyID" label="帖子回复ID" width="100" align="center"></el-table-column>
       <el-table-column prop="postReplyContent" label="帖子回复内容" width="250"></el-table-column>
-      <el-table-column prop="userName" label="发表用户" width="100" align="center"></el-table-column>
+      <el-table-column prop="userName" label="发表用户" width="150" align="center"></el-table-column>
       <el-table-column prop="userReplyTime" label="发表时间" width="200" align="center"></el-table-column>
       <el-table-column label="操作" width="100" align="center">
         <template>
@@ -17,36 +17,31 @@
 </template>
 
 <script>
+import axios from 'axios';
+import pubsub from 'pubsub-js'
 export default {
 data() {
     return {
-      tableData: [
-        {
-          userReplyID: 1,
-          userReplyContent: "postReplyContent",
-          postReplyID: 2,
-          postReplyContent: "postReplyContent",
-          userName: "userName",
-          userReplyTime: "userReplyTime"
-        },
-        {
-          userReplyID: 3,
-          userReplyContent: "postReplyContent",
-          postReplyID: 4,
-          postReplyContent: "postReplyContent",
-          userName: "userName",
-          userReplyTime: "userReplyTime"
-        },
-        {
-          userReplyID: 5,
-          userReplyContent: "postReplyContent",
-          postReplyID: 6,
-          postReplyContent: "postReplyContent",
-          userName: "userName",
-          userReplyTime: "userReplyTime"
-        },
-      ],
+      tableData: [],
     };
+},
+mounted(){
+  pubsub.subscribe('getUserReplyByIF',(msgName,searchField) => {
+    if(searchField === ''){
+      axios.get('http://localhost:8080/user/UserReplyManage/selectUserReply/all').then(
+        (response) => {
+          this.tableData = response.data
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
+  })
+  pubsub.publish('getUserReplyByIF','')
+},
+beforeDestroy() {
+  pubsub.unsubscribe('getUserReplyByIF')
 },
 }
 </script>

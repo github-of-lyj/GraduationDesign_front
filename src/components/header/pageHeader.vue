@@ -56,7 +56,6 @@ export default {
       handler() {
         var pos = this.$route.path.slice(1).indexOf("/") + 1;
         var str = this.$route.path.slice(0, pos);
-        console.log(str)
         if (str === "/forum" || str === "/information")
           this.curPath = str + "/index";
         else if (str === "/administrate")
