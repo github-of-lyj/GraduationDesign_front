@@ -1,5 +1,6 @@
 <template>
   <div id="left">
+    <administrateDialog :reportContentData = reportContentData></administrateDialog>
     <div id="replyNumber" class="el-icon-message">
       <p style="margin-left: 3px;">{{postData.replyNumber}}</p>
     </div>
@@ -21,12 +22,20 @@
 
 <script>
 import axios from 'axios'
+import administrateDialog from '../../../../Administrate/administrateDialog'
 export default {
   data() {
     return {
       postContent: "",
+      reportContentData:{
+        reportContentPosition:"帖子",
+        reportContentID:this.postData.postID,
+        reportContent:this.postData.postTitle,
+        publishUser:this.postData.userName,
+      }
     };
   },
+  components:{administrateDialog},
   props:['postData'],
   mounted(){
     axios.get(`http://localhost:8080/user/postReply/getEarliestPostReplyFromPost/${this.postData.postID}`).then(
@@ -37,8 +46,8 @@ export default {
         console.log(error)
       }
     )
-  }
-
+  },
+  
 };
 </script>
 

@@ -6,22 +6,7 @@
     <div id="replyMain" v-show="isShow">
       <div id="replyContent">
         <div id="otherUserReply"  v-for="userReply in userReplyList" :key="userReply.userReplyID">
-          <div style="display: flex; align-items: center">
-            <router-link
-              id="nameRouter"
-              :to="{
-                name: 'User',
-                params: {
-                  userid: 3,
-                },
-              }"
-              style="color: #2d64b3;"
-            >
-              {{userReply.userName}}：
-            </router-link>
-            <p id="postContent">{{userReply.userReplyContent}}</p>
-          </div>
-          <p id="time">{{userReply.userReplyTime}}</p>
+          <otherReplyItem :userReply = userReply></otherReplyItem>
         </div>
       </div>
       <el-divider direction="vertical"></el-divider>
@@ -36,8 +21,9 @@
 import axios from 'axios';
 import pubsub from 'pubsub-js'
 import replyInput from "./replyInput";
+import otherReplyItem from './otherReplyItem';
 export default {
-  components: { replyInput },
+  components: { replyInput,otherReplyItem },
   data() {
     return {
       number: '?',
@@ -93,33 +79,12 @@ export default {
   border-radius: 10px;
 }
 #replyContent {
-  width: 70%;
+  width: 80%;
   padding: 0;
 }
 #otherUserReply {
-  justify-content: space-between;
-  display: flex;
   margin-left: 5px;
   margin-top: 10px;
-}
-#nameRouter {
-  text-decoration: none;
-  color: black;
-  font-size: 12px;
-}
-#postContent {
-  width: 200px;
-  font-size: 12px;
-  overflow-wrap: break-word;
-  color: #949494;
-  margin: 0;
-}
-#time {
-  display: flex;
-  align-items: center;
-  font-size: 12px;
-  margin: 0;
-  margin-right: 20px;
 }
 #replyInput {
   width: 50%;
