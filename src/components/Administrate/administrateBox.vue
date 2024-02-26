@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import pubsub from 'pubsub-js'
 export default {
   data() {
     return {
@@ -23,10 +24,23 @@ export default {
   },
   methods: {
     querySearch(inputWords, callback) {
-      callback([{ value: "资讯" }, { value: "论坛" }, { value: "资料" }]);
+      callback([{ value: "用户" }, { value: "帖子" }, { value: "用户发言" }]);
     },
     startSearch() {
-
+      var pos = this.$route.path.slice(1).indexOf("/") + 2;
+      var str = this.$route.path.slice(pos);
+      if(str === 'user'){
+        pubsub.publish('getUserByIF',this.inputWords)
+      }
+      if(str === 'post'){
+        pubsub.publish('getPostByIF',this.inputWords)
+      }
+      if(str === 'postReply'){
+        pubsub.publish('getPostReplyByIF',this.inputWords)
+      }
+      if(str === 'userReply'){
+        pubsub.publish('getUserReplyByIF',this.inputWords)
+      }
     },
   },
 };

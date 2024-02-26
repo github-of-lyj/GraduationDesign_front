@@ -7,8 +7,8 @@
       <el-table-column prop="userName" label="发表用户" width="150" align="center"></el-table-column>
       <el-table-column prop="postReplyTime" label="发表时间" width="250" align="center"></el-table-column>
       <el-table-column label="操作" width="100" align="center">
-        <template>
-          <el-button size="mini" type="danger"> 删除 </el-button>
+        <template  slot-scope="props">
+          <el-button size="mini" type="danger" @click="deletePostReply(props.row.postReplyID)"> 删除 </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -24,10 +24,36 @@ data() {
       tableData: [],
     };
 },
+methods:{
+  deletePostReply(postReplyID){
+    console.log(postReplyID)
+    axios.post(`http://localhost:8080/user/PostReplyManage/deletePostReply/${postReplyID}`).then(
+      () => {
+        this.$message({
+          message:'删除成功',
+          type: 'success'
+        })
+        pubsub.publish('getPostReplyByIF','')
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+},
 mounted(){
   pubsub.subscribe('getPostReplyByIF',(msgName,searchField) => {
     if(searchField === ''){
       axios.get('http://localhost:8080/user/PostReplyManage/selectPostReply/all').then(
+        (response) => {
+          this.tableData = response.data
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }else{
+      axios.get(`http://localhost:8080/user/PostReplyManage/selectPostReply/${searchField}`).then(
         (response) => {
           this.tableData = response.data
         },
