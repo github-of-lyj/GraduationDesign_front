@@ -140,7 +140,7 @@ export default {
 
   },
   mounted(){
-    axios.get('http://localhost:8080/user/block/getAll').then(
+    axios.get('http://192.168.23.129/user/block/getAll').then(
       (Response) => {
         this.HuaBei = Response.data.filter((Block) => {
           return Block.zoneName === '华北地区'

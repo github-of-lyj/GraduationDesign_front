@@ -36,7 +36,7 @@ export default {
   mounted(){
     pubsub.subscribe('getReportByIF',(msgName,searchField) => {
         if(searchField === ''){
-            axios.get('http://localhost:8080/user/Report/selectReport/all').then(
+            axios.get('http://192.168.23.129/user/Report/selectReport/all').then(
                 (response) => {
                     this.tableData = response.data
                 },

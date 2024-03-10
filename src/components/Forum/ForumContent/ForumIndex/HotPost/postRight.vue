@@ -38,7 +38,7 @@ export default {
   },
   props:['hotPost'],
   mounted(){
-    axios.get(`http://localhost:8080/user/postReply/getLatestPostReplyFromPost/${this.hotPost.postID}`).then(
+    axios.get(`http://192.168.23.129/user/postReply/getLatestPostReplyFromPost/${this.hotPost.postID}`).then(
       (response) => {
         this.LatestAnswer = response.data
       },

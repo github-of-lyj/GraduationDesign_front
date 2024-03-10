@@ -1,13 +1,10 @@
 <template>
   <div>
-    <div v-if="!UploadFileList.length" id="NoResultHandle">
-      <p>似乎没有符合条件的结果呢 (°ー°〃)</p>
-    </div>
     <div id="upload">
       <el-upload
         v-if="userData.userID"
         class="upload-demo"
-        :action="`http://localhost:8080/user/uploadfile/upload?userID=${userData.userID}`"
+        :action="`http://192.168.23.129/user/uploadfile/upload?userID=${userData.userID}`"
         :before-upload="beforeFileUpload"
         :on-success="onFileUploadSuccess"
       >
@@ -16,6 +13,9 @@
           只能上传zip文件，且不超过400MB
         </div>
       </el-upload>
+    </div>
+    <div v-if="!UploadFileList.length" id="NoResultHandle">
+      <p>似乎没有符合条件的结果呢 (°ー°〃)</p>
     </div>
     <div id="informationData" v-if="UploadFileList.length">
       <div>
@@ -130,7 +130,7 @@ export default {
     download(uploadFile) {
       var userData = JSON.parse(localStorage.getItem("user"));
       if (userData != null) {
-        axios.post("http://localhost:8080/user/checkLogin", userData).then(
+        axios.post("http://192.168.23.129/user/checkLogin", userData).then(
           (response) => {
             if (response.data.description) {
               this.$message({
@@ -145,7 +145,7 @@ export default {
             } else {
               axios
                 .post(
-                  "http://localhost:8080/user/uploadfile/getFile",
+                  "http://192.168.23.129/user/uploadfile/getFile",
                   uploadFile,
                   {
                     responseType: "blob",
@@ -193,7 +193,7 @@ export default {
   mounted() {
     pubsub.subscribe("getUploadFile", () => {
       axios
-        .get("http://localhost:8080/user/uploadfile/selectAllUploadFile")
+        .get("http://192.168.23.129/user/uploadfile/selectAllUploadFile")
         .then(
           (response) => {
             this.UploadFileList = response.data;
@@ -206,7 +206,7 @@ export default {
     pubsub.subscribe("getSearchData", (MsgName, SearchField) => {
       axios
         .get(
-          `http://localhost:8080/user/UploadFileSearch/selectVagueUploadFile/${SearchField}`
+          `http://192.168.23.129/user/UploadFileSearch/selectVagueUploadFile/${SearchField}`
         )
         .then(
           (response) => {

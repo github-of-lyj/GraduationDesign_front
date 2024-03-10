@@ -34,7 +34,7 @@ export default {
     };
   },
   mounted(){
-    axios.get(`http://localhost:8080/user/PostSearch/getPost/${this.$route.params.searchname}`).then(
+    axios.get(`http://192.168.23.129/user/PostSearch/getPost/${this.$route.params.searchname}`).then(
       (response) => {
         this.postSearchList = response.data
       }, 
@@ -43,7 +43,7 @@ export default {
       }
 
     )
-    axios.get(`http://localhost:8080/user/PostReplySearch/getPostReply/${this.$route.params.searchname}`).then(
+    axios.get(`http://192.168.23.129/user/PostReplySearch/getPostReply/${this.$route.params.searchname}`).then(
       (response) => {
         this.postReplySearchList = response.data
       },

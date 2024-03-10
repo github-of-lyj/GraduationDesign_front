@@ -25,7 +25,7 @@ export default {
   },
   components:{classHead,postLeft,postRight},
   mounted(){
-    axios.get('http://localhost:8080/user/PostSearch/selectHotPost').then(
+    axios.get('http://192.168.23.129/user/PostSearch/selectHotPost').then(
       (response) => {
         this.hotPostList = response.data
       },

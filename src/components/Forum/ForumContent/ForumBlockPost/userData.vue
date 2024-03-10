@@ -11,7 +11,7 @@
           }">{{userData.userName}}</router-link>
         </div>
       </li>
-      <li><img v-if="userData.userAvatar" :src="`http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`" id="userIcon" /></li>
+      <li><img v-if="userData.userAvatar" :src="`http://192.168.23.129/user/file/getUserAvatar/${this.userData.userAvatar}`" id="userIcon" /></li>
       <li>
         <div id="userInformation">
           <table>
@@ -67,7 +67,7 @@ export default {
     },
   },
   mounted(){
-    axios.get(`http://localhost:8080/user/getUser/${this.userName}`).then(
+    axios.get(`http://192.168.23.129/user/getUser/${this.userName}`).then(
       (response) => {
         this.userData = response.data
       },
@@ -75,7 +75,7 @@ export default {
         console.log(error)
       }
     )
-    axios.get(`http://localhost:8080/user/post/getUserPostNumber/${this.userName}`).then(
+    axios.get(`http://192.168.23.129/user/post/getUserPostNumber/${this.userName}`).then(
       (response) => {
         this.postCount = response.data
       },

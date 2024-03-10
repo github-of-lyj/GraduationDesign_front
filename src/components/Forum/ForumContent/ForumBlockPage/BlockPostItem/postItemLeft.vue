@@ -38,7 +38,7 @@ export default {
   components:{administrateDialog},
   props:['postData'],
   mounted(){
-    axios.get(`http://localhost:8080/user/postReply/getEarliestPostReplyFromPost/${this.postData.postID}`).then(
+    axios.get(`http://192.168.23.129/user/postReply/getEarliestPostReplyFromPost/${this.postData.postID}`).then(
       (response) => {
         this.postContent = response.data.postReplyContent
       },

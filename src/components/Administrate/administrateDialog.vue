@@ -114,7 +114,7 @@ export default {
           var userData = JSON.parse(localStorage.getItem("user"));
           if (userData != null) {
             this.reportData.reportUser = userData.userName
-            axios.post('http://localhost:8080/user/Report/insertNewReport',this.reportData).then(
+            axios.post('http://192.168.23.129/user/Report/insertNewReport',this.reportData).then(
                 () => {
                     this.$message({
                     message: "感谢你为维护社区做出的贡献，我们会尽快核实",

@@ -22,7 +22,7 @@ export default {
       };
     },
     mounted(){
-    axios.get(`http://localhost:8080/user/post/getPost/${this.$route.params.postid}`).then(
+    axios.get(`http://192.168.23.129/user/post/getPost/${this.$route.params.postid}`).then(
       (response) => {
         this.postData = response.data
       },

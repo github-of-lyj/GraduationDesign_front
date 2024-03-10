@@ -26,7 +26,7 @@ export default {
   },
   props:['postData'],
   mounted(){
-    axios.get(`http://localhost:8080/user/postReply/getLatestPostReplyFromPost/${this.postData.postID}`).then(
+    axios.get(`http://192.168.23.129/user/postReply/getLatestPostReplyFromPost/${this.postData.postID}`).then(
       (response) => {
         this.latestAnswerName = response.data.userName
         this.latestAnswerDate = response.data.postReplyTime

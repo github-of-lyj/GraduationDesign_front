@@ -6,7 +6,7 @@
     <div style="display: flex;justify-content: center;">
       <div id="userSearch">
         <div id="user" v-for="user in UserSearchList" :key="user.userID">
-          <img :src="`http://localhost:8080/user/file/getUserAvatar/${user.userAvatar}`" id="userIcon" />
+          <img :src="`http://192.168.23.129/user/file/getUserAvatar/${user.userAvatar}`" id="userIcon" />
           <div id="userData">
             <router-link class="el-icon-user" :to="{
               name: 'User',
@@ -32,7 +32,7 @@ export default {
     };
   },
   mounted(){
-    axios.get(`http://localhost:8080/user/UserSearch/getUser/${this.$route.params.searchname}`).then(
+    axios.get(`http://192.168.23.129/user/UserSearch/getUser/${this.$route.params.searchname}`).then(
       (response) => {
         this.UserSearchList = response.data
       },

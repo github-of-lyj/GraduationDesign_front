@@ -49,7 +49,7 @@ export default {
   },
   components: { currentNewsDetail },
   mounted() {
-    axios.get(`http://localhost:8080/user/country/${this.type}/0`).then(
+    axios.get(`http://192.168.23.129/user/country/${this.type}/0`).then(
       (response) => {
         this.newsList = response.data;
         this.length = response.data.length;

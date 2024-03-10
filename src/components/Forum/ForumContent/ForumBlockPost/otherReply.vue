@@ -33,7 +33,7 @@ export default {
   },
   props:['postReplyID'],
   mounted(){
-    axios.get(`http://localhost:8080/user/userReply/selectUserReplyCount/${this.postReplyID}`).then(
+    axios.get(`http://192.168.23.129/user/userReply/selectUserReplyCount/${this.postReplyID}`).then(
       (response) => {
         this.number = response.data
       },
@@ -41,7 +41,7 @@ export default {
         console.log(error)
       }
     )
-    axios.get(`http://localhost:8080/user/userReply/selectAllUserReply/${this.postReplyID}`).then(
+    axios.get(`http://192.168.23.129/user/userReply/selectAllUserReply/${this.postReplyID}`).then(
       (response) => {
         this.userReplyList = response.data
       },
@@ -50,7 +50,7 @@ export default {
       }
     )
     pubsub.subscribe('updateUserReply',() => {
-      axios.get(`http://localhost:8080/user/userReply/selectUserReplyCount/${this.postReplyID}`).then(
+      axios.get(`http://192.168.23.129/user/userReply/selectUserReplyCount/${this.postReplyID}`).then(
         (response) => {
           this.number = response.data
         },
@@ -58,7 +58,7 @@ export default {
           console.log(error)
         }
       )
-      axios.get(`http://localhost:8080/user/userReply/selectAllUserReply/${this.postReplyID}`).then(
+      axios.get(`http://192.168.23.129/user/userReply/selectAllUserReply/${this.postReplyID}`).then(
         (response) => {
           this.userReplyList = response.data
         },

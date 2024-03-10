@@ -94,7 +94,7 @@ export default {
           return 
         }
       }
-      axios.post('http://localhost:8080/user/login',this.userLoginInfo).then(
+      axios.post('http://192.168.23.129/user/login',this.userLoginInfo).then(
         (response) => {
           if(response.data.description){
             this.$message({

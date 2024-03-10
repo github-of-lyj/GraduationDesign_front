@@ -29,7 +29,7 @@ export default {
   },
   components: { classHead , replyLeft, replyRight},
   mounted(){
-    axios.get('http://localhost:8080/user/PostReplySearch/selectHotPostReply').then(
+    axios.get('http://192.168.23.129/user/PostReplySearch/selectHotPostReply').then(
       (response) => {
         this.HotPostReplyList = response.data
       },

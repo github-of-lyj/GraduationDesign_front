@@ -5,7 +5,7 @@
         <span>{{ userData.userName }}</span>
       </div>
       <img
-        :src="`http://localhost:8080/user/file/getUserAvatar/${userData.userAvatar}`"
+        :src="`http://192.168.23.129/user/file/getUserAvatar/${userData.userAvatar}`"
         id="userIcon"
       />
       <div style="text-align: center">
@@ -30,7 +30,7 @@
             <el-form-item label="用户头像" :label-width="formLabelWidth">
               <el-upload
                 class="avatar-uploader"
-                :action="`http://localhost:8080/user/file/uploadUserAvatar?userID=${userData.userID}`"
+                :action="`http://192.168.23.129/user/file/uploadUserAvatar?userID=${userData.userID}`"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
@@ -161,7 +161,7 @@ export default {
             return 
         }
         if(this.form.userName != this.userData.userName){
-          axios.post(`http://localhost:8080/user/updateUserName/${this.form.userName}/${this.userData.userID}`).then(
+          axios.post(`http://192.168.23.129/user/updateUserName/${this.form.userName}/${this.userData.userID}`).then(
             (response) => {
               if(response.data.description){
                 this.$message({
@@ -179,7 +179,7 @@ export default {
           )
         }
         if(this.form.userDescription != this.userData.userDescription){
-          axios.post(`http://localhost:8080/user/updateUserDescription/${this.form.userDescription}/${this.userData.userID}`).then(
+          axios.post(`http://192.168.23.129/user/updateUserDescription/${this.form.userDescription}/${this.userData.userID}`).then(
             (response) => {
               if(response.data.description){
                 this.$message({
@@ -196,8 +196,8 @@ export default {
             }
           )
         }
-        if(this.form.imageUrl != `http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`){
-          axios.post(`http://localhost:8080/user/updateUserAvatar/${this.userData.userID}/${this.form.fileID}`).then(
+        if(this.form.imageUrl != `http://192.168.23.129/user/file/getUserAvatar/${this.userData.userAvatar}`){
+          axios.post(`http://192.168.23.129/user/updateUserAvatar/${this.userData.userID}/${this.form.fileID}`).then(
             () => {
               this.userData.userAvatar = this.form.fileID
               pubsub.publish('changeItem',this.userData)
@@ -211,7 +211,7 @@ export default {
       else{
         this.form.userName = this.userData.userName
         this.form.userDescription = this.userData.userDescription
-        this.form.imageUrl = `http://localhost:8080/user/file/getUserAvatar/${this.userData.userAvatar}`
+        this.form.imageUrl = `http://192.168.23.129/user/file/getUserAvatar/${this.userData.userAvatar}`
       }
       
     }
@@ -223,7 +223,7 @@ export default {
     this.userData = userData;
     this.form.userName = userData.userName
     this.form.userDescription = userData.userDescription
-    this.form.imageUrl = `http://localhost:8080/user/file/getUserAvatar/${userData.userAvatar}`
+    this.form.imageUrl = `http://192.168.23.129/user/file/getUserAvatar/${userData.userAvatar}`
   },
 };
 </script>

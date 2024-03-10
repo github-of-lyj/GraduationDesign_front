@@ -131,7 +131,7 @@ export default {
       }
     },
     sendVerifyCode(){
-      axios.post("http://localhost:8080/mail/sendCode",this.userRegisterInfo)
+      axios.post("http://192.168.23.129/user/mail/sendCode",this.userRegisterInfo)
     },
     sendRegisterRequest(){
       for(var key in this.userRegisterInfo){
@@ -152,7 +152,7 @@ export default {
           return 
         }
       }
-      axios.post("http://localhost:8080/user/register",this.userRegisterInfo).then(
+      axios.post("http://192.168.23.129/user/register",this.userRegisterInfo).then(
         (response) => {
           if(response.data.description){
             this.$message({

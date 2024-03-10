@@ -35,7 +35,7 @@ export default {
   },
   props:['PostReplySearch'],
   mounted(){
-    axios.get(`http://localhost:8080/user/userReply/selectUserReplyCount/${this.PostReplySearch.postReplyID}`).then(
+    axios.get(`http://192.168.23.129/user/userReply/selectUserReplyCount/${this.PostReplySearch.postReplyID}`).then(
       (response) => {
         this.replyNumber = response.data
       },

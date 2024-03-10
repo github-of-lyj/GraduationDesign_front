@@ -44,7 +44,7 @@ export default {
   watch:{
     "$route.path":{
       handler(){
-        axios.get(`http://localhost:8080/user/postReply/getAllReplyFromPost/${this.$route.params.postid}`).then(
+        axios.get(`http://192.168.23.129/user/postReply/getAllReplyFromPost/${this.$route.params.postid}`).then(
           (response) => {
             this.postReplyList = response.data
           },
@@ -56,7 +56,7 @@ export default {
     }
   },
   mounted(){
-    axios.get(`http://localhost:8080/user/postReply/getAllReplyFromPost/${this.$route.params.postid}`).then(
+    axios.get(`http://192.168.23.129/user/postReply/getAllReplyFromPost/${this.$route.params.postid}`).then(
       (response) => {
         this.postReplyList = response.data
       },
@@ -65,7 +65,7 @@ export default {
       }
     )
     pubsub.subscribe('updatePostReply',() => {
-      axios.get(`http://localhost:8080/user/postReply/getAllReplyFromPost/${this.$route.params.postid}`).then(
+      axios.get(`http://192.168.23.129/user/postReply/getAllReplyFromPost/${this.$route.params.postid}`).then(
         (response) => {
           this.postReplyList = response.data
         },

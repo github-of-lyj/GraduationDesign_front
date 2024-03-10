@@ -2,7 +2,7 @@
   <div id="pageHeader">
     <div style="display: flex">
       <div id="logoAndtitle">
-        <img id="logo" src="http://localhost:8080/user/file/getUserAvatar/13" />
+        <img id="logo" src="http://192.168.23.129/user/file/getUserAvatar/13" />
         <span id="websiteTitle">研墨</span>
       </div>
       <el-menu class="el-menu-demo" :router="true" :default-active="curPath">
@@ -28,7 +28,7 @@
       <div v-if="isLogin">
         <el-dropdown @command="userBehavior" placement="bottom-start">
           <el-avatar
-            :src="`http://localhost:8080/user/file/getUserAvatar/${userData.userAvatar}`"
+            :src="`http://192.168.23.129/user/file/getUserAvatar/${userData.userAvatar}`"
           ></el-avatar>
           <h4 id="userName">{{ userData.userName }}</h4>
           <el-dropdown-menu slot="dropdown">
@@ -67,7 +67,7 @@ export default {
         //路径变化后查看当前用户的登录状态
         var userData = JSON.parse(localStorage.getItem("user"));
         if (userData != null) {
-          axios.post("http://localhost:8080/user/checkLogin", userData).then(
+          axios.post("http://192.168.23.129/user/checkLogin", userData).then(
             (response) => {
               //说明此时发生了错误，用户登录已过期或用户异地登录
               if (response.data.description) {
@@ -102,7 +102,7 @@ export default {
     },
     userBehavior(behavior) {
       if (behavior === "logout") {
-        axios.post("http://localhost:8080/user/logout", this.userData).then(
+        axios.post("http://192.168.23.129/user/logout", this.userData).then(
           () => {
             if (localStorage.getItem("user") != null)
               localStorage.removeItem("user");
@@ -142,7 +142,7 @@ export default {
     //组件重新渲染时查看当前用户的登录状态
     var userData = JSON.parse(localStorage.getItem("user"));
     if (userData != null) {
-      axios.post("http://localhost:8080/user/checkLogin", userData).then(
+      axios.post("http://192.168.23.129/user/checkLogin", userData).then(
         (response) => {
           if (response.data.description) {
             this.$message({

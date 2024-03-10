@@ -36,7 +36,7 @@ export default {
     publish() {
       var userData = JSON.parse(localStorage.getItem("user"));
       if (userData != null) {
-        axios.post("http://localhost:8080/user/checkLogin", userData).then(
+        axios.post("http://192.168.23.129/user/checkLogin", userData).then(
           (response) => {
             if (response.data.description) {
               this.$message({
@@ -49,7 +49,7 @@ export default {
             } else {
               this.publishData.userID = userData.userID;
               this.publishData.postID = this.$route.params.postid;
-              axios.post("http://localhost:8080/user/postReply/insertNewPostReply",this.publishData).then(
+              axios.post("http://192.168.23.129/user/postReply/insertNewPostReply",this.publishData).then(
                   (response) => {
                     if(response.data.description){
                       this.$message({

@@ -33,6 +33,18 @@
         >
         </el-pagination>
       </el-tab-pane>
+      <el-tab-pane>
+        <span slot="label" class="fontClass">
+          新的回复
+          <el-badge :value="totalNewReply" class="item" type="danger" v-if="NewPostReplyList.length">
+          </el-badge>
+        </span>
+        <div>
+          <div v-for="(NewPostReply,index) in NewPostReplyList" :key="index">
+            <currentUserNewReply :NewPostReply = NewPostReply></currentUserNewReply>
+          </div>
+        </div>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -40,12 +52,16 @@
 <script>
 import currentUserPostItem from "./currentUserHistory/currentUserPostItem"
 import currentUserReplyItem from './currentUserHistory/currentUserReplyItem';
+import currentUserNewReply from './currentUserHistory/currentUserNewReply';
 import axios from "axios"
+import pubsub from 'pubsub-js'
 export default {
   data() {
     return {
       PostSearchList:[],
       PostReplySearchList:[],
+      NewPostReplyList:[],
+      totalNewReply:0,
       pageSize: 3,
       curPage: 0,
       length,
@@ -56,10 +72,23 @@ export default {
       this.curPage = page - 1
     }
   },
-  components:{currentUserPostItem,currentUserReplyItem},
+  components:{currentUserPostItem,currentUserReplyItem,currentUserNewReply},
   mounted(){
     var userData = JSON.parse(localStorage.getItem("user"));
-    axios.get(`http://localhost:8080/user/PostSearch/selectUserPost/${userData.userID}`).then(
+    pubsub.subscribe("getNewPostReplyList",(msgName,userID) => {
+      axios.get(`http://192.168.23.129/user/postReply/getNewPostReplyList/${userID}`).then(
+        (response) => {
+          var NewPostReplyList = []
+          for(var i = 0;i < response.data.length;i++){
+            NewPostReplyList.push(JSON.parse(response.data[i]))
+            this.totalNewReply += parseInt(JSON.parse(response.data[i]).huifushu)
+          }
+          this.NewPostReplyList = NewPostReplyList
+        }
+      )
+    })
+    pubsub.publish("getNewPostReplyList",userData.userID)
+    axios.get(`http://192.168.23.129/user/PostSearch/selectUserPost/${userData.userID}`).then(
       (response) => {
         this.PostSearchList = response.data
       },
@@ -67,7 +96,7 @@ export default {
         console.log(error)
       }
     )
-    axios.get(`http://localhost:8080/user/PostReplySearch/selectPostReply/${userData.userID}`).then(
+    axios.get(`http://192.168.23.129/user/PostReplySearch/selectPostReply/${userData.userID}`).then(
       (response) => {
         this.PostReplySearchList = response.data
       },

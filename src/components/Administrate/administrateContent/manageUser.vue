@@ -38,7 +38,7 @@ export default {
       return authority;
     },
     modifyUserAuthority(userID,authority){
-      axios.post(`http://localhost:8080/user/UserManage/modifyUserAuthority/${userID}/${authority}`).then(
+      axios.post(`http://192.168.23.129/user/UserManage/modifyUserAuthority/${userID}/${authority}`).then(
         ()=>{
           this.$message({
             message: '操作成功',
@@ -60,7 +60,7 @@ export default {
   mounted(){
     pubsub.subscribe('getUserByIF',(msgName,searchField) => {
       if(searchField === ''){
-        axios.get('http://localhost:8080/user/UserManage/selectUser/all').then(
+        axios.get('http://192.168.23.129/user/UserManage/selectUser/all').then(
           (response) => {
             this.tableData = response.data
           },
@@ -69,7 +69,7 @@ export default {
           }
         )
       }else{
-        axios.get(`http://localhost:8080/user/UserManage/selectUser/${searchField}`).then(
+        axios.get(`http://192.168.23.129/user/UserManage/selectUser/${searchField}`).then(
           (response) => {
             this.tableData = response.data
           },

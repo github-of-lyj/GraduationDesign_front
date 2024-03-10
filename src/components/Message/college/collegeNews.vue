@@ -52,7 +52,7 @@ export default {
   watch: {
     collegeName(newValue) {
       axios
-        .get(`http://localhost:8080/user/university/name/${newValue}/0`)
+        .get(`http://192.168.23.129/user/university/name/${newValue}/0`)
         .then(
           (response) => {
             pubsub.publish("universityData", response.data)
@@ -65,13 +65,13 @@ export default {
     },
   },
   mounted() {
-    axios.get("http://localhost:8080/user/college/random").then(
+    axios.get("http://192.168.23.129/user/college/random").then(
       (response) => {
         this.collegeName = response.data.collegeName;
         this.inputWords = response.data.collegeName;
         axios
           .get(
-            `http://localhost:8080/user/university/${response.data.collegeCode}/5`
+            `http://192.168.23.129/user/university/${response.data.collegeCode}/5`
           )
           .then(
             (response) => {

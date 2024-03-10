@@ -40,7 +40,7 @@ export default {
   watch:{
     '$route.path':{
       handler(){
-        axios.get(`http://localhost:8080/user/post/getPosts/${this.$route.params.blockid}`).then(
+        axios.get(`http://192.168.23.129/user/post/getPosts/${this.$route.params.blockid}`).then(
           (response) => {
             this.postList = response.data
           },
@@ -52,7 +52,7 @@ export default {
     }
   },
   mounted(){
-    axios.get(`http://localhost:8080/user/post/getPosts/${this.$route.params.blockid}`).then(
+    axios.get(`http://192.168.23.129/user/post/getPosts/${this.$route.params.blockid}`).then(
       (response) => {
         this.postList = response.data
       },

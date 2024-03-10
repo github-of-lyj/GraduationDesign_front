@@ -25,7 +25,7 @@ export default {
     //利用导航菜单跳转时调用
     "$route.path":{
       handler(){
-        axios.get(`http://localhost:8080/user/block/get/${this.$route.params.blockid}`).then(
+        axios.get(`http://192.168.23.129/user/block/get/${this.$route.params.blockid}`).then(
           (response) => {
             this.blockData = response.data
           },
@@ -38,7 +38,7 @@ export default {
   },
   //在首页进入 Block 页面时调用
   mounted(){
-    axios.get(`http://localhost:8080/user/block/get/${this.$route.params.blockid}`).then(
+    axios.get(`http://192.168.23.129/user/block/get/${this.$route.params.blockid}`).then(
       (response) => {
         this.blockData = response.data
       },

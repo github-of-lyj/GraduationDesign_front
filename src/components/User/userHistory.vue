@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted(){
-    axios.get(`http://localhost:8080/user/PostSearch/selectUserPost/${this.$route.params.userid}`).then(
+    axios.get(`http://192.168.23.129/user/PostSearch/selectUserPost/${this.$route.params.userid}`).then(
       (response) => {
         this.searchPostList = response.data
       },
@@ -68,7 +68,7 @@ export default {
         console.log(error)
       }
     )
-    axios.get(`http://localhost:8080/user/PostReplySearch/selectPostReply/${this.$route.params.userid}`).then(
+    axios.get(`http://192.168.23.129/user/PostReplySearch/selectPostReply/${this.$route.params.userid}`).then(
       (response) => {
         this.searchPostReplyList = response.data
       },

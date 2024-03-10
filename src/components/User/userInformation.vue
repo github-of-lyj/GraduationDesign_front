@@ -4,7 +4,7 @@
       <div id="userName">
         <span>{{userData.userName}}</span>
       </div>
-      <img v-if="userData.userAvatar" :src="`http://localhost:8080/user/file/getUserAvatar/${userData.userAvatar}`" id="userIcon" />
+      <img v-if="userData.userAvatar" :src="`http://192.168.23.129/user/file/getUserAvatar/${userData.userAvatar}`" id="userIcon" />
       <div style="text-align: center;">
         <el-tooltip class="item" effect="dark" content="返回" placement="bottom-start">
           <el-button type="primary" icon="el-icon-back" size="mini" @click="goBack"></el-button>
@@ -58,7 +58,7 @@ export default {
     
   },
   mounted(){
-    axios.get(`http://localhost:8080/user/UserSearch/selectUser/${this.$route.params.userid}`).then(
+    axios.get(`http://192.168.23.129/user/UserSearch/selectUser/${this.$route.params.userid}`).then(
       (response) => {
         this.userData = response.data
       },

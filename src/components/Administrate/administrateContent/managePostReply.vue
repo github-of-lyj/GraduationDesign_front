@@ -27,7 +27,7 @@ data() {
 methods:{
   deletePostReply(postReplyID){
     console.log(postReplyID)
-    axios.post(`http://localhost:8080/user/PostReplyManage/deletePostReply/${postReplyID}`).then(
+    axios.post(`http://192.168.23.129/user/PostReplyManage/deletePostReply/${postReplyID}`).then(
       () => {
         this.$message({
           message:'删除成功',
@@ -44,7 +44,7 @@ methods:{
 mounted(){
   pubsub.subscribe('getPostReplyByIF',(msgName,searchField) => {
     if(searchField === ''){
-      axios.get('http://localhost:8080/user/PostReplyManage/selectPostReply/all').then(
+      axios.get('http://192.168.23.129/user/PostReplyManage/selectPostReply/all').then(
         (response) => {
           this.tableData = response.data
         },
@@ -53,7 +53,7 @@ mounted(){
         }
       )
     }else{
-      axios.get(`http://localhost:8080/user/PostReplyManage/selectPostReply/${searchField}`).then(
+      axios.get(`http://192.168.23.129/user/PostReplyManage/selectPostReply/${searchField}`).then(
         (response) => {
           this.tableData = response.data
         },
